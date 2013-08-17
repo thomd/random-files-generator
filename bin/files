@@ -1,0 +1,33 @@
+#!/bin/bash -e
+
+# This is the souce of all words: a wordlist
+wordlist=/usr/share/dict/words
+
+# Determine number of words within the wordlist
+wordcount=$(cat $wordlist | wc -l)
+
+# Set $min to first script argument. defaults to 50
+min=${1:-50}
+
+# Set $max to second script argument. defaults to 100
+max=${2:-100}
+
+# Number of words: a random number between min and max
+words=$(($RANDOM % $(($max - $min)) + $min))
+
+# Loop for generating files
+for (( w=1; w <= $words; w++ ))
+do
+
+# Determine a random word from within he wordlist.
+# `$RANDOM` is an internal Bash function that returns a pseudorandom integer in the range 0 - 32767
+  wordindex=$(($RANDOM * $wordcount / 32767))
+
+# Extract word from wordlist with `sed` and lowercase with `tr`
+  word=$(sed -n $(($wordindex))p $wordlist | tr A-Z a-z)
+
+# Write a file with the filename of the word with the same word as content
+  echo $word > $word
+done
+
+# vim:ft=sh
