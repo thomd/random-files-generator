@@ -11,6 +11,10 @@ Generate 10 files in current directory
 
     files 10
 
+Generate a random number of files between 10 and 20 in current directory
+
+    files 10..20
+
 Generate 100 files randomly distributed in folders of max depth of 2
 
     files 100 2
