@@ -1,4 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash
+
+# exit on error
+set -e
 
 # This is the souce of all words: a wordlist
 wordlist=/usr/share/dict/words
