@@ -23,3 +23,11 @@ Generate 100 files randomly distributed in folders of max depth of 2
 ## Installation
 
     make install
+
+## Help
+
+    man files
+
+or
+
+    files -h
