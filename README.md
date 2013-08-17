@@ -13,8 +13,8 @@ Generate 10 files in current directory
 
 Generate 100 files randomly distributed in folders of max depth of 2
 
-    files 10 2
-    files -f 10 -d 2
+    files 100 2
+    files -f 100 -d 2
 
 ## Installation
 
