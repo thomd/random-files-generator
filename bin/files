@@ -15,19 +15,39 @@ max=${2:-100}
 # Number of words: a random number between min and max
 words=$(($RANDOM % $(($max - $min)) + $min))
 
+
+# create a directory each 10th file.
+# value is ceiled.
+folders=$(($RANDOM % $((words / 10)) + 1))
+
+# create folders and store in array for later usage
+for (( f=1; f <= $folders; f++ ))
+do
+  wordindex=$(($RANDOM * $wordcount / 32767))
+  word=$(sed -n $(($wordindex))p $wordlist | tr A-Z a-z)
+  mkdir -p $word
+  folder[$f]=$word
+done
+
+echo ${#folder[@]}
+echo ${folder[@]}
+
+
 # Loop for generating files
 for (( w=1; w <= $words; w++ ))
 do
 
-# Determine a random word from within he wordlist.
-# `$RANDOM` is an internal Bash function that returns a pseudorandom integer in the range 0 - 32767
+  # Determine a random word from within he wordlist.
+  # `$RANDOM` is an internal Bash function that returns a pseudorandom integer in the range 0 - 32767
   wordindex=$(($RANDOM * $wordcount / 32767))
 
-# Extract word from wordlist with `sed` and lowercase with `tr`
+  # Extract word from wordlist with `sed` and lowercase with `tr`
   word=$(sed -n $(($wordindex))p $wordlist | tr A-Z a-z)
 
-# Write a file with the filename of the word with the same word as content
+  # Write a file with the filename of the word with the same word as content
   echo $word > $word
 done
+
+
 
 # vim:ft=sh
