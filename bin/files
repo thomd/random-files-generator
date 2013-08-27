@@ -35,12 +35,12 @@ num_words=$(($RANDOM % $(($max - $min)) + $min))
 
 # number of folders.
 # value is ceiled.
-number_of_folders=$(($RANDOM % $(($num_words / 5)) + 1))
+num_folders=$(($RANDOM % $(($num_words / 5)) + 1))
 
 folders=()
 
 # create folders and store folder names in array for later usage
-for word in $(get_words $number_of_folders)
+for word in $(get_words $num_folders)
 do
   [ ! -d $word ] && mkdir -p $word
   folders=(${folders[@]} $word)
@@ -58,7 +58,7 @@ do
   folder_counter=$(($folder_counter + 1))
 
   if [ $folder_counter -lt $in_folder ]; then
-    folder=$(( $RANDOM % $number_of_folders ))
+    folder=$(( $RANDOM % $num_folders ))
     echo $word > ${folders[$folder]}/$word
   else
     echo $word > $word
