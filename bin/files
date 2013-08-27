@@ -24,9 +24,6 @@ function get_words {
   echo "${words[@]}"
 }
 
-# Determine number of words within the wordlist
-wordcount=$(cat $WORDLIST | wc -l)
-
 # Set $min to first script argument. defaults to 10
 min=${1:-10}
 
