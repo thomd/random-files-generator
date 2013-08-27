@@ -4,68 +4,68 @@
 set -e
 
 # This is the souce of all words: a wordlist
-wordlist=/usr/share/dict/words
+WORDLIST=/usr/share/dict/words
+
+#
+# get array of N words from a wordlist $WORDLIST
+#
+function get_words {
+  local words=()
+  local list_length=$(cat $WORDLIST | wc -l)
+  local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
+
+  for (( i=0; i<$1; i++ ))
+  do
+    local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM ))
+    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z)
+    words[$i]=$word
+  done
+
+  echo "${words[@]}"
+}
 
 # Determine number of words within the wordlist
 wordcount=$(cat $WORDLIST | wc -l)
 
-# Set $min to first script argument. defaults to 50
-min=${1:-50}
+# Set $min to first script argument. defaults to 10
+min=${1:-10}
 
-# Set $max to second script argument. defaults to 100
-max=${2:-100}
+# Set $max to second script argument. defaults to 20
+max=${2:-20}
 
 # Number of words: a random number between min and max
-words=$(($RANDOM % $(($max - $min)) + $min))
-
+num_words=$(($RANDOM % $(($max - $min)) + $min))
 
 # number of folders.
 # value is ceiled.
-number_of_folders=$(($RANDOM % $((words / 10)) + 1))
+number_of_folders=$(($RANDOM % $(($num_words / 5)) + 1))
 
+folders=()
 
-# create folders and store in array for later usage
-for (( f=1; f <= $number_of_folders; f++ ))
+# create folders and store folder names in array for later usage
+for word in $(get_words $number_of_folders)
 do
-  wordindex=$(($RANDOM * $wordcount / 32767))
-  word=$(sed -n $(($wordindex))p $WORDLIST | tr A-Z a-z)
   [ ! -d $word ] && mkdir -p $word
-  folders[$f]=$word
+  folders=(${folders[@]} $word)
 done
 
 # put 50% of files in folders
-folder_percent=75
+folder_percent=50
 
-in_folder=$(( $words * $folder_percent / 100 ))
+in_folder=$(( $num_words * $folder_percent / 100 ))
 folder_counter=0
 
 # Loop for generating files
-for (( w=1; w <= $words; w++ ))
+for word in $(get_words $num_words)
 do
-
-  # Determine a random word from within he wordlist.
-  # `$RANDOM` is an internal Bash function that returns a pseudorandom integer in the range 0 - 32767
-  wordindex=$(($RANDOM * $wordcount / 32767))
-
-  # Extract word from wordlist with `sed` and lowercase with `tr`
-  word=$(sed -n $(($wordindex))p $WORDLIST | tr A-Z a-z)
-
   folder_counter=$(($folder_counter + 1))
 
   if [ $folder_counter -lt $in_folder ]; then
-
-    # a random folder index
-    folder=$(($RANDOM % $number_of_folders + 1))
+    folder=$(( $RANDOM % $number_of_folders ))
     echo $word > ${folders[$folder]}/$word
-
   else
-
-    # Write a file with the filename of the word with the same word as content
     echo $word > $word
-
   fi
 done
-
-
 
 # vim:ft=sh
