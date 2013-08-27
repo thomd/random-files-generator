@@ -7,7 +7,7 @@ set -e
 wordlist=/usr/share/dict/words
 
 # Determine number of words within the wordlist
-wordcount=$(cat $wordlist | wc -l)
+wordcount=$(cat $WORDLIST | wc -l)
 
 # Set $min to first script argument. defaults to 50
 min=${1:-50}
@@ -28,8 +28,8 @@ number_of_folders=$(($RANDOM % $((words / 10)) + 1))
 for (( f=1; f <= $number_of_folders; f++ ))
 do
   wordindex=$(($RANDOM * $wordcount / 32767))
-  word=$(sed -n $(($wordindex))p $wordlist | tr A-Z a-z)
-  mkdir -p $word
+  word=$(sed -n $(($wordindex))p $WORDLIST | tr A-Z a-z)
+  [ ! -d $word ] && mkdir -p $word
   folders[$f]=$word
 done
 
@@ -48,7 +48,7 @@ do
   wordindex=$(($RANDOM * $wordcount / 32767))
 
   # Extract word from wordlist with `sed` and lowercase with `tr`
-  word=$(sed -n $(($wordindex))p $wordlist | tr A-Z a-z)
+  word=$(sed -n $(($wordindex))p $WORDLIST | tr A-Z a-z)
 
   folder_counter=$(($folder_counter + 1))
 
