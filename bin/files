@@ -3,21 +3,22 @@
 # exit on error
 set -e
 
-# This is the souce of all words: a wordlist
-WORDLIST=/usr/share/dict/words
+# source of all words: a wordlist
+# export FILES_WORDLIST=~/.my_own_private_wordlist
+FILES_WORDLIST=${FILES_WORDLIST:-/usr/share/dict/words}
 
 #
-# get array of N words from a wordlist $WORDLIST
+# get array of N words from a wordlist $FILES_WORDLIST
 #
 function get_words {
   local words=()
-  local list_length=$(cat $WORDLIST | wc -l)
+  local list_length=$(cat $FILES_WORDLIST | wc -l)
   local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
 
   for (( i=0; i<$1; i++ ))
   do
     local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM ))
-    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z)
+    local word=$(sed -n $(($list_index))p $FILES_WORDLIST | tr A-Z a-z)
     words[$i]=$word
   done
 
