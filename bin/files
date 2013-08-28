@@ -5,7 +5,8 @@ set -e
 
 # source of all words: a wordlist
 # export FILES_WORDLIST=~/.my_own_private_wordlist
-FILES_WORDLIST=${FILES_WORDLIST:-/usr/share/dict/words}
+WORDFILE=/usr/share/dict/words
+FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
 
 #
 # get array of N words from a wordlist $FILES_WORDLIST
