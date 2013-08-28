@@ -25,6 +25,17 @@ function get_words {
   echo "${words[@]}"
 }
 
+# make directory sequence: folder > folder1 > folder2 > ...
+mkdir_seq() {
+  if [ -d $1 ]; then
+    mkdir_seq $(echo $1 | tr -d 0-9)$(($(echo $1 | tr -d a-z)+1))
+  else
+    mkdir $1
+    folders=(${folders[@]} $1)
+  fi
+}
+
+
 # Set $min to first script argument. defaults to 10
 min=${1:-10}
 
@@ -43,8 +54,7 @@ folders=()
 # create folders and store folder names in array for later usage
 for word in $(get_words $num_folders)
 do
-  [ ! -d $word ] && mkdir -p $word
-  folders=(${folders[@]} $word)
+  mkdir_seq $word
 done
 
 # put 50% of files in folders
