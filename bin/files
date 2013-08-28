@@ -18,11 +18,10 @@ function get_words {
 
   for (( i=0; i<$1; i++ ))
   do
-    local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM ))
+    local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM + 1 ))
     local word=$(sed -n $(($list_index))p $FILES_WORDLIST | tr A-Z a-z)
     words[$i]=$word
   done
-
   echo "${words[@]}"
 }
 
