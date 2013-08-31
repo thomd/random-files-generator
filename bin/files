@@ -25,14 +25,33 @@ function get_words {
   echo "${words[@]}"
 }
 
-# make directory sequence: folder > folder1 > folder2 > ...
+
+#
+# create directory sequence and store in variable: folder > folder1 > folder2 > ...
+#
 mkdir_seq() {
-  if [ -d $1 ]; then
-    mkdir_seq $(echo $1 | tr -d 0-9)$(($(echo $1 | tr -d a-z)+1))
+  if [ -d $1 ] || [ -f $1 ]; then
+    mkdir_seq $(seq $1)
   else
     mkdir $1
     folders=(${folders[@]} $1)
   fi
+}
+
+
+#
+# return file sequence: file > file1 > file2 > ...
+#
+file_seq() {
+  [[ -f $1 || -d $1 ]] && file_seq $(seq $1) || echo "$1"
+}
+
+
+#
+# make word sequence: word > word1 > word2 > ...
+#
+seq() {
+  echo "$(echo $1 | tr -d 0-9)$(($(echo $1 | tr -d a-z)+1))"
 }
 
 
@@ -66,13 +85,21 @@ folder_counter=0
 # Loop for generating files
 for word in $(get_words $num_words)
 do
-  folder_counter=$(($folder_counter + 1))
+  _word=$(file_seq $word)
 
-  if [ $folder_counter -lt $in_folder ]; then
-    folder=$(( $RANDOM % $num_folders ))
-    echo $word > ${folders[$folder]}/$word
+  # create files in folders first ...
+  if [ $folder_counter -lt $in_folder ] && [ $num_folders -gt 0 ]; then
+
+    # distribute files equally in the folders
+    folder=$(( $folder_counter % $num_folders ))
+    # echo "$_word > ${folders[$folder]}/$_word"
+    echo $_word > ${folders[$folder]}/$_word
+    folder_counter=$(($folder_counter + 1))
+
+  # ... then files in current directory
   else
-    echo $word > $word
+    echo $_word > $_word
+    # echo "$_word > $_word"
   fi
 done
 
