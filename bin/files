@@ -81,7 +81,9 @@ mkdir_seq() {
 
 
 #
-# return file sequence: file > file1 > file2 > ...
+# return file sequence for
+#   current directory: file > file1 > file2 > ...
+#   or a given folder: folder/file > folder/file1 > folder/file2 > ...
 #
 file_seq() {
   [[ -f $1 || -d $1 ]] && file_seq $(seq $1) || echo "$1"
@@ -92,7 +94,7 @@ file_seq() {
 # make word sequence: word > word1 > word2 > ...
 #
 seq() {
-  echo "$(echo $1 | tr -d 0-9)$(($(echo $1 | tr -d a-z)+1))"
+  echo "$(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))"
 }
 
 
