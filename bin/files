@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#
+# the key parameters are
+#   num_words:   number of generated files
+#   num_folders: number of generated folders
+#   in_folder:   number of files in folders
+#
+
 # exit on error
 set -e
 
@@ -7,6 +14,7 @@ set -e
 # export FILES_WORDLIST=~/.my_own_private_wordlist
 WORDFILE=/usr/share/dict/words
 FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
+
 
 #
 # get array of N words from a wordlist $FILES_WORDLIST
@@ -62,15 +70,16 @@ min=${1:-10}
 max=${2:-20}
 
 # Number of words: a random number between min and max
-num_words=$(($RANDOM % $(($max - $min)) + $min))
-
+# num_words=$(($RANDOM % $(($max - $min)) + $min))
+num_words=15
 # number of folders.
 # value is ceiled.
-num_folders=$(($RANDOM % $(($num_words / 5)) + 1))
+# num_folders=$(($RANDOM % $(($num_words / 5)) + 1))
+num_folders=2
 
-folders=()
 
 # create folders and store folder names in array for later usage
+folders=()
 for word in $(get_words $num_folders)
 do
   mkdir_seq $word
@@ -78,11 +87,12 @@ done
 
 # put 50% of files in folders
 folder_percent=50
+# in_folder=$(( $num_words * $folder_percent / 100 ))
+in_folder=10
 
-in_folder=$(( $num_words * $folder_percent / 100 ))
+
+# generate folders and files
 folder_counter=0
-
-# Loop for generating files
 for word in $(get_words $num_words)
 do
   _word=$(file_seq $word)
@@ -92,14 +102,12 @@ do
 
     # distribute files equally in the folders
     folder=$(( $folder_counter % $num_folders ))
-    # echo "$_word > ${folders[$folder]}/$_word"
-    echo $_word > ${folders[$folder]}/$_word
     folder_counter=$(($folder_counter + 1))
+    echo $_word > ${folders[$folder]}/$_word
 
   # ... then files in current directory
   else
     echo $_word > $_word
-    # echo "$_word > $_word"
   fi
 done
 
