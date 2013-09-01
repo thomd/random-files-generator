@@ -11,12 +11,15 @@ usage() {
   Usage: files [options] [number-of-files]
 
   Options:
-  -v, --version Output version
-  -h, --help This message
+
+    -f, --wordfile   Location of a wordfile
+    -v, --version    Output version
+    -h, --help       This message
 
   Examples:
-  files
-  files 10
+
+    $ files
+    $ files 10
 
 EOF
 }
