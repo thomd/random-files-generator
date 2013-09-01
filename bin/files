@@ -100,6 +100,26 @@ seq() {
   echo "$(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))"
 }
 
+#
+# parse command arguments
+#
+while test $# -ne 0; do
+  arg=$1; shift
+  case $arg in
+    -h|--help)
+      usage
+      exit 1
+      ;;
+    *)
+      if [[ $arg =~ [[:digit:]] ]]; then
+        echo $arg
+      fi
+      ;;
+  esac
+done
+
+
+
 
 # number of generated files (defaults to a random number between 10 and 20 if number is not given)
 nofi=15
