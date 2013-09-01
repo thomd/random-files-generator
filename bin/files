@@ -74,17 +74,17 @@ seq() {
 }
 
 
-# number of generated files (defaults to a random number between 10 and 20)
+# number of generated files (defaults to a random number between 10 and 20 if number is not given)
 nofi=15
 number_of_files=${nofi:-$(($RANDOM % 20 + 10))}
 
-# number of generated folders (defaults to a random number between 1 and 3)
+# number of generated folders (defaults to a random number between 1 and 3 if number is not given)
 nofo=2
 number_of_folders=${nofo:-$(($RANDOM % 3 + 1))}
 
-# number of files within a folder (defaults to a random number between 5 and 10)
+# number of files within a folder (defaults to half of files)
 fif=10
-files_in_folder=${fif:-$(($RANDOM % 10 + 5 ))}
+files_in_folder=${fif:-$(( $nofi / 2 ))}
 
 
 # create folders and store folder names in array for later usage
