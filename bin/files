@@ -2,8 +2,8 @@
 
 #
 # the key parameters are
-#   num_words:   number of generated files
-#   num_folders: number of generated folders
+#   number_of_words:   number of generated files
+#   number_of_folders: number of generated folders
 #   in_folder:   number of files in folders
 #
 
@@ -19,7 +19,7 @@ FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
 #
 # get array of N words from a wordlist $FILES_WORDLIST
 #
-function get_words {
+function words {
   local words=()
   local list_length=$(cat $FILES_WORDLIST | wc -l)
   local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
@@ -70,39 +70,39 @@ min=${1:-10}
 max=${2:-20}
 
 # Number of words: a random number between min and max
-# num_words=$(($RANDOM % $(($max - $min)) + $min))
-num_words=15
+# number_of_words=$(($RANDOM % $(($max - $min)) + $min))
+number_of_words=15
 # number of folders.
 # value is ceiled.
-# num_folders=$(($RANDOM % $(($num_words / 5)) + 1))
-num_folders=2
+# number_of_folders=$(($RANDOM % $(($number_of_words / 5)) + 1))
+number_of_folders=2
 
 
 # create folders and store folder names in array for later usage
 folders=()
-for word in $(get_words $num_folders)
+for word in $(words $number_of_folders)
 do
   mkdir_seq $word
 done
 
 # put 50% of files in folders
 folder_percent=50
-# in_folder=$(( $num_words * $folder_percent / 100 ))
+# in_folder=$(( $number_of_words * $folder_percent / 100 ))
 in_folder=10
 
 
 # generate folders and files
-folder_counter=0
-for word in $(get_words $num_words)
+i=0
+for word in $(words $number_of_words)
 do
   _word=$(file_seq $word)
 
   # create files in folders first ...
-  if [ $folder_counter -lt $in_folder ] && [ $num_folders -gt 0 ]; then
+  if [ $i -lt $in_folder ] && [ $number_of_folders -gt 0 ]; then
 
     # distribute files equally in the folders
-    folder=$(( $folder_counter % $num_folders ))
-    folder_counter=$(($folder_counter + 1))
+    folder=$(( $i % $number_of_folders ))
+    i=$(( $i + 1 ))
     echo $_word > ${folders[$folder]}/$_word
 
   # ... then files in current directory
