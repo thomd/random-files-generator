@@ -30,7 +30,7 @@ FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
 #
 # get array of N words from a wordlist $FILES_WORDLIST
 #
-function words {
+words() {
   local words=()
   local list_length=$(cat $FILES_WORDLIST | wc -l)
   local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
