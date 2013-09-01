@@ -123,20 +123,19 @@ done
 i=0
 for word in $(words $number_of_files)
 do
-  _word=$(file_seq $word)
 
   # create files in folders first ...
   if [ $i -lt $files_in_folder ] && [ $number_of_folders -gt 0 ]; then
+    _word=$(file_seq ${folders[$(( $i % $number_of_folders ))]}/$word)
+    echo $_word | sed 's/.*\///g' > $_word
 
-    # distribute files equally in the folders
-    folder=$(( $i % $number_of_folders ))
-    i=$(( $i + 1 ))
-    echo $_word > ${folders[$folder]}/$_word
-
-  # ... then files in current directory
+  # ... and then files in current directory
   else
+    _word=$(file_seq $word)
     echo $_word > $_word
   fi
+
+  i=$(( $i + 1 ))
 done
 
 status
