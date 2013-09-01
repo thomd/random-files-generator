@@ -4,6 +4,12 @@
 set -e
 
 
+# terminal colors
+GREEN="\033[0;32m"
+GREY="\033[1;30m"
+RESET="\033[0m"
+
+
 # usage info
 usage() {
   cat <<EOF
@@ -29,9 +35,6 @@ EOF
 # status message
 #
 status() {
-  local GREEN="\033[0;32m"
-  local GREY="\033[1;30m"
-  local RESET="\033[0m"
   if [ $number_of_folders -eq 0 ]; then
     echo -e "\n$gry generated $GREEN$number_of_files files$GREY in current directory.$RESET"
   else
