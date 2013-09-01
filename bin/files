@@ -1,14 +1,8 @@
 #!/usr/bin/env bash
 
-#
-# the key parameters are
-#   number_of_files:   number of generated files
-#   number_of_folders: number of generated folders
-#   files_in_folder:   number of files in folders
-#
-
 # exit on error
 set -e
+
 
 # source of all words: a wordlist
 # export FILES_WORDLIST=~/.my_own_private_wordlist
@@ -63,19 +57,17 @@ seq() {
 }
 
 
-# Set $min to first script argument. defaults to 10
-min=${1:-10}
+# number of generated files (defaults to a random number between 10 and 20)
+nofi=15
+number_of_files=${nofi:-$(($RANDOM % 20 + 10))}
 
-# Set $max to second script argument. defaults to 20
-max=${2:-20}
+# number of generated folders (defaults to a random number between 1 and 3)
+nofo=2
+number_of_folders=${nofo:-$(($RANDOM % 3 + 1))}
 
-# Number of words: a random number between min and max
-# number_of_files=$(($RANDOM % $(($max - $min)) + $min))
-number_of_files=15
-# number of folders.
-# value is ceiled.
-# number_of_folders=$(($RANDOM % $(($number_of_files / 5)) + 1))
-number_of_folders=2
+# number of files within a folder (defaults to a random number between 5 and 10)
+fif=10
+files_in_folder=${fif:-$(($RANDOM % 10 + 5 ))}
 
 
 # create folders and store folder names in array for later usage
@@ -85,7 +77,6 @@ do
   mkdir_seq $word
 done
 
-files_in_folder=10
 
 # generate folders and files
 i=0
