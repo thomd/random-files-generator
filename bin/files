@@ -4,6 +4,23 @@
 set -e
 
 
+# usage info
+usage() {
+  cat <<EOF
+
+  Usage: files [options] [number-of-files]
+
+  Options:
+  -v, --version Output version
+  -h, --help This message
+
+  Examples:
+  files
+  files 10
+
+EOF
+}
+
 # source of all words: a wordlist
 # export FILES_WORDLIST=~/.my_own_private_wordlist
 WORDFILE=/usr/share/dict/words
