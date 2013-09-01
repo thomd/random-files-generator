@@ -2,9 +2,9 @@
 
 #
 # the key parameters are
-#   number_of_words:   number of generated files
+#   number_of_files:   number of generated files
 #   number_of_folders: number of generated folders
-#   in_folder:   number of files in folders
+#   files_in_folder:   number of files in folders
 #
 
 # exit on error
@@ -70,11 +70,11 @@ min=${1:-10}
 max=${2:-20}
 
 # Number of words: a random number between min and max
-# number_of_words=$(($RANDOM % $(($max - $min)) + $min))
-number_of_words=15
+# number_of_files=$(($RANDOM % $(($max - $min)) + $min))
+number_of_files=15
 # number of folders.
 # value is ceiled.
-# number_of_folders=$(($RANDOM % $(($number_of_words / 5)) + 1))
+# number_of_folders=$(($RANDOM % $(($number_of_files / 5)) + 1))
 number_of_folders=2
 
 
@@ -85,20 +85,16 @@ do
   mkdir_seq $word
 done
 
-# put 50% of files in folders
-folder_percent=50
-# in_folder=$(( $number_of_words * $folder_percent / 100 ))
-in_folder=10
-
+files_in_folder=10
 
 # generate folders and files
 i=0
-for word in $(words $number_of_words)
+for word in $(words $number_of_files)
 do
   _word=$(file_seq $word)
 
   # create files in folders first ...
-  if [ $i -lt $in_folder ] && [ $number_of_folders -gt 0 ]; then
+  if [ $i -lt $files_in_folder ] && [ $number_of_folders -gt 0 ]; then
 
     # distribute files equally in the folders
     folder=$(( $i % $number_of_folders ))
