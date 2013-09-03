@@ -105,6 +105,11 @@ seq() {
   echo "$(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))"
 }
 
+
+# prevent the following statements from being sourced
+[ $(basename $0) != "files" ] && exit 1
+
+
 #
 # parse command arguments
 #
