@@ -79,7 +79,7 @@ mkdir_seq() {
     mkdir_seq $(seq $1)
   else
     mkdir $1
-    folders=(${folders[@]} $1)
+    echo $1
   fi
 }
 
@@ -90,7 +90,11 @@ mkdir_seq() {
 #   or a given folder: folder/file > folder/file1 > folder/file2 > ...
 #
 file_seq() {
-  [[ -f $1 || -d $1 ]] && file_seq $(seq $1) || echo "$1"
+  if [[ -f $1 || -d $1 ]]; then
+    file_seq $(seq $1)
+  else
+    echo $1
+  fi
 }
 
 
@@ -139,7 +143,8 @@ files_in_folder=${fif:-$(( $nofi / 2 ))}
 folders=()
 for word in $(words $number_of_folders)
 do
-  mkdir_seq $word
+  folder=$(mkdir_seq $word)
+  folders=(${folders[@]} $folder)
 done
 
 
