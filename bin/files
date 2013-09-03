@@ -4,6 +4,12 @@
 set -e
 
 
+# source of all words: a wordlist
+# export FILES_WORDLIST=~/.my_own_private_wordlist
+WORDFILE=/usr/share/dict/words
+FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
+
+
 # terminal colors
 GREEN="\033[0;32m"
 GREY="\033[1;30m"
@@ -34,19 +40,14 @@ EOF
 #
 # status message
 #
-status() {
+# TODO pluralization
+message() {
   if [ $number_of_folders -eq 0 ]; then
     echo -e "\n$GREY generated $GREEN$number_of_files files$GREY in current directory.$RESET"
   else
     echo -e "\n$GREY generated $GREEN$(( $number_of_files - $files_in_folder )) files$GREY in current directory and $GREEN$files_in_folder files$GREY in $GREEN$number_of_folders folders$GREY.$RESET"
   fi
 }
-
-
-# source of all words: a wordlist
-# export FILES_WORDLIST=~/.my_own_private_wordlist
-WORDFILE=/usr/share/dict/words
-FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
 
 
 #
@@ -161,7 +162,7 @@ do
   i=$(( $i + 1 ))
 done
 
-status
+message
 exit 0
 
 
