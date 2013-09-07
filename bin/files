@@ -72,37 +72,14 @@ words() {
 
 
 #
-# create directory sequence and store in variable: folder > folder1 > folder2 > ...
-#
-mkdir_seq() {
-  if [ -d $1 ] || [ -f $1 ]; then
-    mkdir_seq $(seq $1)
-  else
-    mkdir $1
-    echo $1
-  fi
-}
-
-
-#
-# return file sequence for
-#   current directory: file > file1 > file2 > ...
-#   or a given folder: folder/file > folder/file1 > folder/file2 > ...
-#
-file_seq() {
-  if [[ -f $1 || -d $1 ]]; then
-    file_seq $(seq $1)
-  else
-    echo $1
-  fi
-}
-
-
-#
 # make word sequence: word > word1 > word2 > ...
 #
-seq() {
-  echo "$(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))"
+word_seq() {
+  if [[ -f $1 || -d $1 ]]; then
+    word_seq $(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))
+  else
+    echo $1
+  fi
 }
 
 
@@ -145,7 +122,8 @@ files_in_folder=${items[2]:-$(( $number_of_files / 2 ))}
 folders=()
 for word in $(words $number_of_folders)
 do
-  folder=$(mkdir_seq $word)
+  folder=$(word_seq $word)
+  mkdir $folder
   folders=(${folders[@]} $folder)
 done
 
@@ -157,12 +135,12 @@ do
 
   # create files in folders first ...
   if [ $i -lt $files_in_folder ] && [ $number_of_folders -gt 0 ]; then
-    _word=$(file_seq ${folders[$(( $i % $number_of_folders ))]}/$word)
+    _word=$(word_seq ${folders[$(( $i % $number_of_folders ))]}/$word)
     echo $_word | sed 's/.*\///g' > $_word
 
   # ... and then files in current directory
   else
-    _word=$(file_seq $word)
+    _word=$(word_seq $word)
     echo $_word > $_word
   fi
 
