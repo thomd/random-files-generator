@@ -5,7 +5,7 @@ load test_helper
 @test "invoking files(1) with -h option prints usage" {
   run files -h
   [ "$status" -eq 1 ]
-  [ "${lines[0]}" == "  Usage: files [options] [number-of-files]" ]
+  [ "${lines[0]}" == "  Usage: files [options] [number-of-files/folders]" ]
 }
 
 @test "invoking files(1) with a parameter of '10' generates 10 files" {

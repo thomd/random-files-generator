@@ -3,6 +3,7 @@
 # exit on error
 set -e
 
+VERSION="files 0.1"
 
 # source of all words: a wordlist
 #
@@ -22,7 +23,7 @@ RESET="\033[0m"
 usage() {
   cat <<EOF
 
-  Usage: files [options] [number-of-files]
+  Usage: files [options] [number-of-files/folders]
 
   Options:
 
@@ -97,6 +98,10 @@ while test $# -ne 0; do
   arg=$1
   shift
   case $arg in
+    -v|--version)
+      echo $VERSION
+      exit 1
+      ;;
     -h|--help)
       usage
       exit 1
