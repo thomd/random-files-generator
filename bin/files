@@ -98,6 +98,11 @@ while test $# -ne 0; do
   arg=$1
   shift
   case $arg in
+    -f|--wordfile)
+      [ -z $1 ] && echo "provide a file" && echo 1
+      [ ! -e $1 ] && echo "file doesn't exist" && echo 1
+      WORDLIST=$1
+      ;;
     -v|--version)
       echo $VERSION
       exit 1
