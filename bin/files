@@ -5,9 +5,11 @@ set -e
 
 
 # source of all words: a wordlist
-# export FILES_WORDLIST=~/.my_own_private_wordlist
-WORDFILE=/usr/share/dict/words
-FILES_WORDLIST=${FILES_WORDLIST:-$WORDFILE}
+#
+# define own wordlist with:
+#    export WORDLIST=~/.my_own_private_wordlist
+#
+WORDLIST=${WORDLIST:-/usr/share/dict/words}
 
 
 # terminal colors
@@ -51,20 +53,20 @@ message() {
 
 
 #
-# get array of N words from a wordlist $FILES_WORDLIST
+# get array of N words from a wordlist $WORDLIST
 #
 words() {
   [ -z "$1" ] && echo "words() requires an argument" >&2 && exit 1
 
   local num=$1
   local w=()
-  local list_length=$(cat $FILES_WORDLIST | wc -l)
+  local list_length=$(cat $WORDLIST | wc -l)
   local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
 
   for (( i=0; i<num; i++ ))
   do
     local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM + 1 ))
-    local word=$(sed -n $(($list_index))p $FILES_WORDLIST | tr A-Z a-z)
+    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z)
     w[$i]=$word
   done
   echo "${w[@]}"
