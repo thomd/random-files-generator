@@ -1,4 +1,4 @@
-export PATH=$(pwd)/../bin:$PATH
+export PATH=$(pwd)/bin:$PATH
 export BATS_TEST_TMPDIR=$BATS_TMPDIR/tmp
 
 setup() {
