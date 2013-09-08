@@ -11,7 +11,9 @@ teardown() {
 }
 
 number_of_files() {
-  echo $(find $1 -type f | wc -l)
+  local path=${1:-.}
+  local name=${2:-*}
+  echo $(find $path -type f -name "$name" | wc -l)
 }
 
 number_of_folders() {

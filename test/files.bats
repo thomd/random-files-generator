@@ -11,20 +11,30 @@ load test_helper
 @test "invoking files(1) with a parameter of '10' generates 10 files" {
   run files 10
   [ "$status" -eq 0 ]
-  [ "$(number_of_files '.')" -eq 10 ]
+  [ "$(number_of_files)" -eq 10 ]
 }
 
 @test "invoking files(1) with a parameter of '10 2' generates 10 files and 2 folders" {
   run files 10 2
   [ "$status" -eq 0 ]
-  [ "$(number_of_files '.')" -eq 10 ]
+  [ "$(number_of_files)" -eq 10 ]
   [ "$(number_of_folders)" -eq 2 ]
 }
 
 @test "invoking files(1) with a parameter of '10 2 6' generates 10 files whereas 6 files in 2 folders" {
   run files 10 2 6
   [ "$status" -eq 0 ]
-  [ "$(number_of_files '.')" -eq 10 ]
+  [ "$(number_of_files)" -eq 10 ]
   [ "$(number_of_folders)" -eq 2 ]
   [ "$(number_of_files '**/*')" -eq 6 ]
 }
+
+@test "generated files should only contain words from the wordlist" {
+  echo -e "foo" > wordlist.txt
+  files -f wordlist.txt 10
+  [ "$(number_of_files '.' 'foo*')" -eq 10 ]
+}
+
+
+
+
