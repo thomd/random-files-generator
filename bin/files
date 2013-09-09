@@ -28,6 +28,7 @@ usage() {
   Options:
 
     -f, --wordfile   Location of a wordfile
+    -c, --content    Add Content to existing files
     -v, --version    Output version
     -h, --help       This message
 
@@ -75,14 +76,22 @@ words() {
 
 
 #
-# make word sequence: word > word1 > word2 > ...
+# create word sequence: word -> word1 -> word2 -> ...
 #
 word_seq() {
   if [[ -f $1 || -d $1 ]]; then
-    word_seq $(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))
+    word_seq $(seq $1)
   else
     echo $1
   fi
+}
+
+
+#
+# create next word: word<n> -> word<n+1>
+#
+seq() {
+  echo $(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))
 }
 
 
@@ -102,6 +111,13 @@ while test $# -ne 0; do
       [ -z $1 ] && echo "provide a file" && echo 1
       [ ! -e $1 ] && echo "file doesn't exist" && echo 1
       WORDLIST=$1
+      ;;
+    -c|--content)
+      for f in `find . -type f -not -path "*.git*" -not -path "*.svn*"`
+      do
+         echo $(seq `tail -n 1 $f`) >> $f
+      done
+      exit 1
       ;;
     -v|--version)
       echo $VERSION

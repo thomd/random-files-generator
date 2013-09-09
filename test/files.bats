@@ -16,14 +16,18 @@ load test_helper
 
 @test "invoking files(1) with a parameter of '10 2' generates 10 files and 2 folders" {
   run files 10 2
-  [ "$status" -eq 0 ]
   [ "$(number_of_files)" -eq 10 ]
   [ "$(number_of_folders)" -eq 2 ]
 }
 
-@test "invoking files(1) with a parameter of '10 2 6' generates 10 files whereas 6 files in 2 folders" {
+@test "invoking files(1) with a parameter of '1 0' generates 1 file and no folders" {
+  run files 1 0
+  [ "$(number_of_files)" -eq 1 ]
+  [ "$(number_of_folders)" -eq 0 ]
+}
+
+@test "invoking files(1) with a parameter of '10 2 6' generates 10 files of which 6 files are in 2 folders" {
   run files 10 2 6
-  [ "$status" -eq 0 ]
   [ "$(number_of_files)" -eq 10 ]
   [ "$(number_of_folders)" -eq 2 ]
   [ "$(number_of_files '**/*')" -eq 6 ]
@@ -31,10 +35,24 @@ load test_helper
 
 @test "generated files should only contain words from the wordlist" {
   echo -e "foo" > wordlist.txt
-  files -f wordlist.txt 10
+  run files -f wordlist.txt 10
   [ "$(number_of_files '.' 'foo*')" -eq 10 ]
 }
 
+@test "invoking files(1) with '-c' option appends content to existing files" {
+  run files 10
+  [ "$(number_of_files)" -eq 10 ]
+  [ "$(number_of_lines)" -eq 10 ]
+  run files -c
+  [ "$(number_of_files)" -eq 10 ]
+  [ "$(number_of_lines)" -eq 20 ]
+}
 
+@test "invoking files(1) with '-c' option appends sequenced content" {
+  run files 1 0
+  for i in {1..9}; do run files -c; done
+  [ "$(number_of_lines)" -eq 10 ]
+  [ "$(cat * | tr -d 0-9 | uniq | wc -l)" -eq 1 ]
+}
 
 

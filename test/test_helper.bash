@@ -10,6 +10,10 @@ teardown() {
   rm -r $BATS_TEST_TMPDIR
 }
 
+number_of_lines() {
+  echo $(find . -type f | xargs cat | wc -l)
+}
+
 number_of_files() {
   local path=${1:-.}
   local name=${2:-*}
