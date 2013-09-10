@@ -55,4 +55,9 @@ load test_helper
   [ "$(cat * | tr -d 0-9 | uniq | wc -l)" -eq 1 ]
 }
 
-
+@test "generated files should only contain words from a stdin wordlist" {
+  run files 10 <<< "foo"
+  [ "$(number_of_files '.' 'foo*')" -eq 10 ]
+  run $(echo "bar" | files 10)
+  [ "$(number_of_files '.' 'bar*')" -eq 10 ]
+}

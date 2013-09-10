@@ -10,7 +10,15 @@ VERSION="0.1"
 # define own wordlist with:
 #    export WORDLIST=~/.my_own_private_wordlist
 #
-WORDLIST=${WORDLIST:-/usr/share/dict/words}
+if [ -t 0 ]; then
+  WORDLIST=${WORDLIST:-/usr/share/dict/words}
+else
+  tmp_wordlist=$(mktemp -t `basename $0`)
+  while read stdin_line; do
+    echo $stdin_line >> $tmp_wordlist
+  done < "/dev/stdin"
+  WORDLIST=$tmp_wordlist
+fi
 
 
 # terminal colors
@@ -62,7 +70,7 @@ words() {
 
   local num=$1
   local w=()
-  local list_length=$(cat $WORDLIST | wc -l)
+  local list_length=$(wc -l < $WORDLIST)
   local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
 
   for (( i=0; i<num; i++ ))
@@ -175,6 +183,7 @@ do
   i=$(( $i + 1 ))
 done
 
+[ ! -t 0 ] && rm $tmp_wordlist
 message
 exit 0
 
