@@ -3,7 +3,7 @@
 # exit on error
 set -e
 
-VERSION="files 0.1"
+VERSION="0.1"
 
 # source of all words: a wordlist
 #
@@ -120,7 +120,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -v|--version)
-      echo $VERSION
+      echo `basename $0` $VERSION
       exit 1
       ;;
     -h|--help)
