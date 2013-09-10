@@ -52,13 +52,17 @@ EOF
 #
 # status message
 #
-# TODO pluralization
 message() {
   if [ $number_of_folders -eq 0 ]; then
-    echo -e "\n$GREY generated $GREEN$number_of_files files$GREY in current directory.$RESET"
+    echo -e "\n$GREY generated $GREEN$(unit $number_of_files file)$GREY in current directory.$RESET"
   else
-    echo -e "\n$GREY generated $GREEN$(( $number_of_files - $files_in_folder )) files$GREY in current directory and $GREEN$files_in_folder files$GREY in $GREEN$number_of_folders folders$GREY.$RESET"
+    echo -e "\n$GREY generated $GREEN$(unit $(( $number_of_files - $files_in_folder )) file)$GREY in current directory and $GREEN$(unit $files_in_folder file)$GREY in $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
   fi
+}
+unit() {
+  local plural="s"
+  [ $1 -eq 1 ] && plural=""
+  echo "$1 $2$plural"
 }
 
 

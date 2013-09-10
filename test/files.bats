@@ -61,3 +61,4 @@ load test_helper
   run $(echo "bar" | files 10)
   [ "$(number_of_files '.' 'bar*')" -eq 10 ]
 }
+
