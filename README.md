@@ -1,47 +1,87 @@
 # files(1)
 
-`files(1)` is lorem ipsum for files.
+`files(1)` is a dummy files generator.
 
-Need some dummy files for testing things out in bash?
-
-Think about learning [git][1] and need some dummy files or testing a [rsync][2] script.
+Think about learning [git][1] and need some dummy files or testing a [rsync][2] script with some dummy files.
 
 ## Usage
+
+    Usage: files [options] [number-of-files/folders]
+    
+    Options:
+    
+      -f, --wordfile   Location of a wordfile
+      -c, --content    Add Content to existing files
+      -v, --version    Output version
+      -h, --help       This message
+
+`files(1)` uses random words from a wordlist for naming files and
+folders. The content of each file is the same a the filename.
+
+Out-of-the-box `files(1)` uses the standard OSX wordlist
+`/usr/share/dict/words`. If this wordlist does not exist, `files(1)` uses
+letters for naming files and folders.
+
+You may provide a own wordlist via
+
+    $ echo -e "foo
+    $ bar
+    $ baz" > ~/.my_own_private_wordlist
+    $ export WORDLIST=~/.my_own_private_wordlist
+
+or provide words via STDIN:
+
+    $ files 10 <<< "foo"
 
 The three key parameter for generating files are
 
 * number of files
-* number of folders which contains these files
-* number of files to put into these folders (defaults to 50%)
+* number of folders
+* number of files to be moved into these folders
+
+All three parameter are optional.
 
 ## Examples
 
-Generate 20 files in current working directory:
+generate a random number of files and folders:
 
-    files 20
-    files -f 20
+    $ files
 
-Generate 20 files and 2 folders. Put **half of the files** into the 2
-folders:
+generate 10 files, some of them in folders:
 
-    files 20 2
-    files -f 20 -d 2
+    $ files 10
 
-generate 20 files and 5 folders. Put 15 files equally into the 5
-folders (hence 5 files remain in the current directory):
+generate 10 files only:
 
-    files 20 5 15
-    files -f 20 -d 5 -p 15
+    $ files 10 0
 
-Instead of generating new files, append new content to all files within
-the current directory and sub-directories (be aware thst this affects
-ALL files, even non-generated files):
+generate 10 files of which 6 files are in 2 folders:
 
-    files -c
+    $ files 10 2 6
+
+append furher content to all files in current working directory:
+
+    $ files -c
+
+generate files and folders using words from `mywords.txt`:
+
+    $ files -f mywords.txt
+    $ cat mywords.txt | files                      # using STDIN
+
+generate 10 files using a single word "foo":
+
+    $ files 10 <<< "foo"
+    $ echo -e "foo" | files 10                     # using STDIN
 
 ## Installation
 
     make install
+
+## Testing
+
+    make test
+
+Tesitng framework is [bats][3].
 
 ## Help
 
@@ -53,3 +93,4 @@ or
 
 [1]: http://git-scm.com/
 [2]: http://man.cx/rsync(1)
+[3]: https://github.com/sstephenson/bats
