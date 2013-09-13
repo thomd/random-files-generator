@@ -44,14 +44,15 @@ usage() {
 
   Examples:
 
-    $ files                       # generate a random number of files and folders
-    $ files 10                    # generate 10 files, some of them in folders
-    $ files 10 0                  # generate 10 files only
-    $ files 10 2 6                # generate 10 files of which 6 files are in 2 folders
-    $ files -c                    # append furher content to all files in CWD
-    $ files -f mywords.txt        # generate files & folders using words from mywords.txt
-    $ cat mywords.txt | files     # generate files & folders using words from mywords.txt
-    $ files <<< "foo"             # generate files & folders using a single word "foo"
+    $ files                              # generate a random number of files and folders
+    $ files 10                           # generate 10 files, some of them in folders
+    $ files 10 0                         # generate 10 files only
+    $ files 10 2 6                       # generate 10 files of which 6 files are in 2 folders
+    $ files -c                           # append furher content to all files in CWD
+    $ files -f mywords.txt               # generate files & folders using words from mywords.txt
+    $ cat mywords.txt | files            # generate files & folders using words from mywords.txt
+    $ files <<< "foo"                    # generate files & folders using a single word "foo"
+    $ echo -e "foo\nbar" | files 10      # generate files & folders using two words "foo" and "bar"
 
 EOF
 }
