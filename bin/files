@@ -86,7 +86,7 @@ words() {
   for (( i=0; i<num; i++ ))
   do
     local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM + 1 ))
-    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z)
+    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z | tr -s ' ' '-')
     w[$i]=$word
   done
   echo "${w[@]}"
@@ -109,7 +109,7 @@ word_seq() {
 # create next word: word<n> -> word<n+1>
 #
 seq() {
-  echo $(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z) + 1 ))
+  echo $(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z-) + 1 ))
 }
 
 
