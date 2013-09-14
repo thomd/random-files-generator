@@ -7,68 +7,65 @@ Think about learning [git][1] and need some dummy files or testing a [rsync][2] 
 ## Usage
 
     Usage: files [options] [number-of-files/folders]
-    
+
     Options:
-    
+
       -f, --wordfile   Location of a wordfile
       -c, --content    Add Content to existing files
       -v, --version    Output version
       -h, --help       This message
 
 `files(1)` uses random words from a wordlist for naming files and
-folders. The content of each file is the same a the filename.
+folders. The content of each file is the same as the filename.
 
 Out-of-the-box `files(1)` uses the standard OSX wordlist
 `/usr/share/dict/words`. If this wordlist does not exist, `files(1)` uses
 letters for naming files and folders.
 
-You may provide a own wordlist via
+You may provide an own wordlist via an environment variable `WORDLIST`
 
-    $ echo -e "foo
-    $ bar
-    $ baz" > ~/.my_own_private_wordlist
     $ export WORDLIST=~/.my_own_private_wordlist
 
 or provide words via STDIN:
 
-    $ files 10 <<< "foo"
+    $ cat wordlist.txt | files 10
 
 The three key parameter for generating files are
 
 * number of files
 * number of folders
-* number of files to be moved into these folders
+* number of files to be moved into the folders
 
-All three parameter are optional.
+All three parameter are optional (see Examples).
 
 ## Examples
 
-generate a random number of files and folders:
+Generate a random number of files and folders:
 
     $ files
 
-generate 10 files, some of them in folders:
+Generate 10 files, a random number of them in folders:
 
     $ files 10
 
-generate 10 files only:
+Generate 10 files only (no folders):
 
     $ files 10 0
 
-generate 10 files of which 6 files are in 2 folders:
+Generate 10 files of which 6 files are in 2 folders:
 
     $ files 10 2 6
 
-append furher content to all files in current working directory:
+Append further content to all files in current working directory:
 
     $ files -c
 
-generate files and folders using words from `mywords.txt`:
+Generate files and folders using words from `mywords.txt`:
 
     $ files -f mywords.txt
     $ cat mywords.txt | files                      # using STDIN
 
-generate 10 files using a single word "foo":
+Generate 10 files using a single word "foo":
 
     $ files 10 <<< "foo"
     $ echo -e "foo" | files 10                     # using STDIN
