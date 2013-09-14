@@ -1,0 +1,98 @@
+.TH "FILES" "1" "September 2013" "" ""
+.SH "NAME"
+\fBfiles\fR \- a random files generator
+.SH SYNOPSIS
+.P
+\fBfiles\fR [\fB\-vh\fR] [\fB\-f\fR \fIwordfile\fR] [\fInum_files\fR] [\fInum_folders\fR] [\fInum_files_in_folders\fR]
+.br
+\fBfiles\fR \fB\-c\fR
+.SH DESCRIPTION
+.P
+generate random files and folders for testing or experimenting\.
+.P
+\fBfiles\fR uses random words from a wordlist for naming files and folders\. The content of each file
+is the same as the filename\. Out\-of\-the\-box \fBfiles\fR uses the standard OSX wordlist \fI/usr/share/dict/words\fR\|\.
+If this wordlist does not exist, \fBfiles\fR uses letters for naming files and folders\. You may also 
+provide an own wordlist via an environment variable WORDLIST or the \fB\-f\fR option\.
+.SH OPTIONS
+.P
+\fB\-f\fR, \fB\-\-wordfile\fR
+    Location of a wordfile
+.P
+\fB\-c\fR, \fB\-\-content\fR
+    Add Content to existing files
+.P
+\fB\-v\fR, \fB\-\-version\fR
+    Output version
+.P
+\fB\-h\fR, \fB\-\-help\fR
+    Help message
+.SH ENVIRONMENT VARIABLES
+.P
+WORDLIST specifies an own wordlist\. Default is \fI/usr/share/dict/words\fR
+.SH EXAMPLES
+.P
+Generate a random number of files and folders:
+.P
+.RS 2
+.EX
+  files
+.EE
+.RE
+.P
+Generate 10 files, a random number of them in folders:
+.P
+.RS 2
+.EX
+  files 10
+.EE
+.RE
+.P
+Generate 10 files only (no folders):
+.P
+.RS 2
+.EX
+  files 10 0
+.EE
+.RE
+.P
+Generate 10 files of which 6 files are in 2 folders:
+.P
+.RS 2
+.EX
+  files 10 2 6
+.EE
+.RE
+.P
+Append furher content to all files in current working directory:
+.P
+.RS 2
+.EX
+  files \-c
+.EE
+.RE
+.P
+Generate files and folders using words from \fImywords\.txt\fR:
+.P
+.RS 2
+.EX
+  files \-f mywords\.txt  
+  cat mywords\.txt | files                      # using STDIN
+.EE
+.RE
+.P
+Generate 10 files using a single word "foo":
+.P
+.RS 2
+.EX
+  files 10 <<< "foo"  
+  echo \-e "foo" | files 10                     # using STDIN
+.EE
+.RE
+.SH AUTHOR
+.P
+Thomas Duerr (thomduerr@gmail\.com)
+.SH GITHUB
+.P
+http://github\.com/thomd/random\-files\-generator
+
