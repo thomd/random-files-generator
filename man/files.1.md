@@ -63,7 +63,7 @@ Generate 10 files using a single word "foo":
       echo -e "foo" | files 10                     # using STDIN
 
 ## AUTHOR
-Thomas Duerr (thomduerr@gmail.com)
+**Thomas Duerr** (thomduerr@gmail.com)
 
 ## GITHUB
 http://github.com/thomd/random-files-generator

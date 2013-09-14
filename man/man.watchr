@@ -4,7 +4,7 @@
 #
 def run_markedman
   system('clear')
-  system('marked-man man/files.1.md > man/files.1')
+  system('marked-man --version=0.1 man/files.1.md > man/files.1')
   system('PAGER="/usr/bin/less -E" man ./man/files.1')
 end
 
