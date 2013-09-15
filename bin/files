@@ -135,7 +135,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -v|--version)
-      echo `basename $0` $VERSION
+      echo $VERSION
       exit 1
       ;;
     -h|--help)
