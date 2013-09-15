@@ -62,3 +62,8 @@ load test_helper
   [ "$(number_of_files '.' 'bar*')" -eq 10 ]
 }
 
+@test "if wordlist does not exist, use a wordlist with single letters from a to z" {
+  export WORDLIST=~/non-existing-wordlist.txt
+  run files 1 0
+  [ "$(number_of_files '.' '[a-z]')" -eq 1 ]
+}

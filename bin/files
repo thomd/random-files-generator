@@ -10,14 +10,17 @@ VERSION="0.1"
 # define own wordlist with:
 #    export WORDLIST=~/.my_own_private_wordlist
 #
+WORDLIST=${WORDLIST:-/usr/share/dict/words}
 if [ -t 0 ]; then
-  WORDLIST=${WORDLIST:-/usr/share/dict/words}
+  if [ ! -f $WORDLIST ]; then
+    WORDLIST=$(mktemp -t `basename $0`)
+    for l in {a..z}; do echo $l >> $WORDLIST; done
+  fi
 else
-  tmp_wordlist=$(mktemp -t `basename $0`)
+  WORDLIST=$(mktemp -t `basename $0`)
   while read stdin_line; do
-    echo $stdin_line >> $tmp_wordlist
+    echo $stdin_line >> $WORDLIST
   done < "/dev/stdin"
-  WORDLIST=$tmp_wordlist
 fi
 
 [ ! -s "$WORDLIST" ] && echo "${0##*/}: wordlist is empty" 1>&2 && exit 1
@@ -190,7 +193,6 @@ do
   i=$(( $i + 1 ))
 done
 
-[ ! -t 0 ] && rm $tmp_wordlist
 message
 exit 0
 
