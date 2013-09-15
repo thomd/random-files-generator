@@ -1,8 +1,8 @@
 # files(1)
 
-`files(1)` is a dummy files generator.
+`files(1)` is a random files generator for the console.
 
-Think about learning [git][1] and need some dummy files or testing a [rsync][2] script with some dummy files.
+Think about experimenting with [git][1] and need some dummy files or testing a [rsync][2] script with some dummy files.
 
 ## Usage
 
@@ -72,21 +72,20 @@ Generate 10 files using a single word "foo":
 
 ## Installation
 
-    make install
-
-## Testing
+First run tests, then install shell script and man page:
 
     make test
+    make install
 
-Tesitng framework is [bats][3].
+You need the bash testing framework [bats][3] installed.
 
 ## Help
 
-    man files
+Find help on man page via `man files` or check usage-info via `files -h`.
 
-or
+## License
 
-    files -h
+© 2013 Thomas Duerr. files(1) is released under an MIT-style license
 
 [1]: http://git-scm.com/
 [2]: http://man.cx/rsync(1)
