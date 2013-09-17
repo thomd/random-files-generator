@@ -5,6 +5,8 @@
 Do you need to generate a bunch of random files with random names and
 content? Think about experimenting with [git][1] or testing a [rsync][2] script.
 
+![example of `files(1)` usage](https://raw.github.com/thomd/random-files-generator/images/files.png)
+
 ## Usage
 
     Usage: files [options] [number-of-files/folders]
