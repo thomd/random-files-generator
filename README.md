@@ -1,8 +1,9 @@
 # files(1)
 
-`files(1)` is a random files generator for the console.
+`files(1)` is a random files generator for the bash console.
 
-Think about experimenting with [git][1] and need some dummy files or testing a [rsync][2] script with some dummy files.
+Do you need to generate a bunch of random files with random names and
+content? Think about experimenting with [git][1] or testing a [rsync][2] script.
 
 ## Usage
 
@@ -44,11 +45,16 @@ Generate a random number of files and folders:
 
     $ files
 
-Generate 10 files, a random number of them in folders:
+Generate 10 files with a random number of them in a random number of folders:
 
     $ files 10
 
-Generate 10 files only (no folders):
+Generate 10 files and 2 folders with a random number of them in these
+two folders:
+
+    $ files 10 2
+
+Generate 10 files and no folders:
 
     $ files 10 0
 
@@ -63,19 +69,19 @@ Append further content to all files in current working directory:
 Generate files and folders using words from `mywords.txt`:
 
     $ files -f mywords.txt
-    $ cat mywords.txt | files                      # using STDIN
+    $ cat mywords.txt | files                  # using STDIN
 
 Generate 10 files using a single word "foo":
 
     $ files 10 <<< "foo"
-    $ echo -e "foo" | files 10                     # using STDIN
+    $ echo -e "foo" | files 10                 # using STDIN
 
 ## Installation
 
 First run tests, then install shell script and man page:
 
     make test
-    make install
+    make install                               # install script and man page
 
 You need the bash testing framework [bats][3] installed.
 
