@@ -90,7 +90,7 @@ words() {
   for (( i=0; i<num; i++ ))
   do
     local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM + 1 ))
-    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z | tr -s ' ' '-')
+    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z | tr -s ' ' '-' | tr -d "'")
     w[$i]=$word
   done
   echo "${w[@]}"
