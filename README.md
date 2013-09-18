@@ -5,7 +5,7 @@
 Do you need to generate a bunch of random files with random names and
 content? Think about experimenting with [git][1] or testing a [rsync][2] script.
 
-![example of `files(1)` usage](https://raw.github.com/thomd/random-files-generator/images/files.png)
+![example of files(1) usage][img1]
 
 ## Usage
 
@@ -71,19 +71,19 @@ Append further content to all files in current working directory:
 Generate files and folders using words from `mywords.txt`:
 
     $ files -f mywords.txt
-    $ cat mywords.txt | files                  # using STDIN
+    $ cat mywords.txt | files                       # read words from stdin
 
 Generate 10 files using a single word "foo":
 
-    $ files 10 <<< "foo"
-    $ echo -e "foo" | files 10                 # using STDIN
+    $ files 10 <<< "foo"                            # read words from stdin using a here-string
+    $ echo -e "foo" | files 10                      # read words from stdin
 
 ## Installation
 
-First run tests, then install shell script and man page:
+Use `Makefile` for installation. First run tests, then install binary and man page:
 
     make test
-    make install                               # install script and man page
+    make install                                    # install script and man page
 
 You need the bash testing framework [bats][3] installed.
 
@@ -98,3 +98,4 @@ Find help on man page via `man files` or check usage-info via `files -h`.
 [1]: http://git-scm.com/
 [2]: http://man.cx/rsync(1)
 [3]: https://github.com/sstephenson/bats
+[img1]: https://raw.github.com/thomd/random-files-generator/images/files.png
