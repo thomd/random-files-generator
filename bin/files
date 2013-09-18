@@ -13,11 +13,11 @@ VERSION="0.1"
 WORDLIST=${WORDLIST:-/usr/share/dict/words}
 if [ -t 0 ]; then
   if [ ! -f $WORDLIST ]; then
-    WORDLIST=$(mktemp -t `basename $0`)
+    WORDLIST=$(mktemp -t `basename $0`XXXX)
     for l in {a..z}; do echo $l >> $WORDLIST; done
   fi
 else
-  WORDLIST=$(mktemp -t `basename $0`)
+  WORDLIST=$(mktemp -t `basename $0`XXXX)
   while read stdin_line; do
     echo $stdin_line >> $WORDLIST
   done < "/dev/stdin"
