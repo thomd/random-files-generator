@@ -117,9 +117,7 @@ word_seq() {
 #   delete numbers
 #
 sanitize(){
-  set -vx
   echo $(echo $1 | tr A-Z a-z | tr -s ' _' '-' | tr -d "'")
-  set +vx
 }
 
 
