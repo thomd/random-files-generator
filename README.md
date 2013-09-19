@@ -80,12 +80,23 @@ Generate 10 files using a single word "foo":
 
 ## Installation
 
-Use `Makefile` for installation. First run tests, then install binary and man page:
+Use `Makefile` for installation. First run tests, then install binary
+and man page. Please install the bash testing framework [bats][3] before
+running the tests.
 
     make test
-    make install                                    # install script and man page
+    sudo make install                              # installs binary and man page
 
-You need the bash testing framework [bats][3] installed.
+Without `sudo` privileges, you may install binary and man page into your home directory using 
+the `DESTDIR` environment variable:
+
+    mkdir ~/bin ~/share/man
+    export PATH=~/bin:$PATH
+    unset MANPATH && export MANPATH=~/share/man:$(manpath)
+    
+    make DESTDIR=~ install
+
+Tests are green on OSX, Ubuntu (via Vagrants lucid32 box) and Cygwin.
 
 ## Help
 
