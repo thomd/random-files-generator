@@ -90,7 +90,7 @@ words() {
   for (( i=0; i<num; i++ ))
   do
     local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM + 1 ))
-    local word=$(sed -n $(($list_index))p $WORDLIST | tr A-Z a-z | tr -s ' ' '-' | tr -d "'")
+    local word=$(sanitize "$(sed -n $(($list_index))p $WORDLIST)")
     w[$i]=$word
   done
   echo "${w[@]}"
@@ -106,6 +106,20 @@ word_seq() {
   else
     echo $1
   fi
+}
+
+
+#
+# sanitize words:
+#   uppercase to lowercase
+#   replace whitespaces and underscores with a dash
+#   delete single quotes
+#   delete numbers
+#
+sanitize(){
+  set -vx
+  echo $(echo $1 | tr A-Z a-z | tr -s ' _' '-' | tr -d "'")
+  set +vx
 }
 
 
