@@ -5,34 +5,15 @@ set -e
 
 VERSION="0.1"
 
-# source of all words: a wordlist
-#
-# define own wordlist with:
-#    export WORDLIST=~/.my_own_private_wordlist
-#
-WORDLIST=${WORDLIST:-/usr/share/dict/words}
-if [ -t 0 ]; then
-  if [ ! -f $WORDLIST ]; then
-    WORDLIST=$(mktemp -t `basename $0`XXXX)
-    for l in {a..z}; do echo $l >> $WORDLIST; done
-  fi
-else
-  WORDLIST=$(mktemp -t `basename $0`XXXX)
-  while read stdin_line; do
-    echo $stdin_line >> $WORDLIST
-  done < "/dev/stdin"
-fi
-
-[ ! -s "$WORDLIST" ] && echo "${0##*/}: wordlist is empty" 1>&2 && exit 1
-
-
 # terminal colors
 GREEN="\033[0;32m"
 GREY="\033[1;30m"
 RESET="\033[0m"
 
 
-# usage info
+#
+# print usage info
+#
 usage() {
   cat <<EOF
 
@@ -116,7 +97,7 @@ word_seq() {
 #   delete single quotes
 #   delete numbers
 #
-sanitize(){
+sanitize() {
   echo $(echo $1 | tr A-Z a-z | tr -s ' _' '-' | tr -d "'")
 }
 
@@ -127,6 +108,46 @@ sanitize(){
 seq() {
   echo $(echo $1 | tr -d 0-9)$(( $(echo $1 | tr -d /a-z-) + 1 ))
 }
+
+
+#
+#
+#
+mktempfile() {
+  set -vx
+  echo $(mktemp -t ${1:-`basename $0`}XXXX)
+  set +vx
+}
+
+
+#
+# create a session (temporary file) which stores generated files
+#
+session() {
+  local files_session=$PWD/.files
+  [ ! -e $files_session ] && touch $files_session
+}
+
+
+# source of all words: a wordlist
+#
+# define own wordlist with:
+#    export WORDLIST=~/.my_wordlist
+#
+WORDLIST=${WORDLIST:-/usr/share/dict/words}
+if [ -t 0 ]; then
+  if [ ! -f $WORDLIST ]; then
+    WORDLIST=$(mktempfile)
+    for l in {a..z}; do echo $l >> $WORDLIST; done
+  fi
+else
+  WORDLIST=$(mktempfile)
+  while read stdin_line; do
+    echo $stdin_line >> $WORDLIST
+  done < "/dev/stdin"
+fi
+
+[ ! -s "$WORDLIST" ] && echo "${0##*/}: wordlist is empty" 1>&2 && exit 1
 
 
 #
