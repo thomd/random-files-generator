@@ -3,7 +3,7 @@
 `files(1)` is a random files generator for the bash console.
 
 Do you need to generate a bunch of random files with random names and
-content? Think about experimenting with [git][1] or testing a [rsync][2] script.
+random content? Think about experimenting with [git][1] or testing a [rsync][2] script.
 
 ![example of files(1) usage][img1]
 
@@ -96,7 +96,7 @@ the `DESTDIR` environment variable:
     
     make DESTDIR=~ install
 
-Tests are green on OSX, Ubuntu (via Vagrants lucid32 box) and Cygwin.
+Tests are green on OSX and Ubuntu (via Vagrants lucid32 box).
 
 ## Help
 
