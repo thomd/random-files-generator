@@ -13,14 +13,14 @@ uninstall:
 	rm -f ${BINDIR}/files
 	rm -f ${MANDIR}/man1/files.1
 
-test:
 # https://github.com/sstephenson/bats
-	bats test/files.bats
+test:
+	@bats test/files.bats
 
 man: man/files.1
 
-man/files.1: man/files.1.md
 # https://github.com/kapouer/marked-man
+man/files.1: man/files.1.md
 	marked-man --version=${VERSION} man/files.1.md > man/files.1
 
 .PHONY: install uninstall test man
