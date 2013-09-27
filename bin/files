@@ -17,6 +17,8 @@ RESET="\033[0m"
 #
 usage() {
   cat <<EOF
+  random files generator
+  version $VERSION
 
   Usage: ${0##*/} [options] [number-of-files/folders]
 
@@ -24,6 +26,8 @@ usage() {
 
     -f, --wordfile   Location of a wordfile
     -c, --content    Add Content to existing files
+    -d, --delete     Delete generated files
+    -s, --session    Start a new files session
     -v, --version    Output version
     -h, --help       This message
 
@@ -172,6 +176,10 @@ while test $# -ne 0; do
     -d|--delete)
       # delete files first, then folders. As folders were written first, we delete entries in reverse order
       tail -r $FILES_SESSION | xargs rm -r
+      rm $FILES_SESSION
+      exit 1
+      ;;
+    -s|--session)
       rm $FILES_SESSION
       exit 1
       ;;

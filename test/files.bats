@@ -5,7 +5,7 @@ load test_helper
 @test "invoking files(1) with -h option prints usage" {
   run files -h
   [ "$status" -eq 1 ]
-  [ "${lines[0]}" == "  Usage: files [options] [number-of-files/folders]" ]
+  [ "${lines[2]}" == "  Usage: files [options] [number-of-files/folders]" ]
 }
 
 @test "invoking files(1) with a parameter of '10' generates 10 files" {
@@ -67,3 +67,21 @@ load test_helper
   run files 1 0
   [ "$(number_of_files '.' '[a-z]')" -eq 1 ]
 }
+
+@test "deleting files should restore initial state" {
+  [ "$(number_of_files)" -eq 0 ]
+  run files 10
+  [ "$(number_of_files)" -eq 10 ]
+  run files -d
+  [ "$(number_of_files)" -eq 0 ]
+}
+
+@test "starting a new session and deleting afterwards should only delete new files" {
+  run files 10
+  [ "$(number_of_files)" -eq 10 ]
+  run files -s
+  run files 10
+  run files -d
+  [ "$(number_of_files)" -eq 10 ]
+}
+

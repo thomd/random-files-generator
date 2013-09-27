@@ -27,7 +27,7 @@ letters for naming files and folders.
 
 You may provide an own wordlist via an environment variable `WORDLIST`
 
-    $ export WORDLIST=~/.my_own_private_wordlist
+    $ export WORDLIST=~/.my_wordlist
 
 or provide words via STDIN:
 
