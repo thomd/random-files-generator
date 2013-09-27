@@ -200,11 +200,11 @@ while test $# -ne 0; do
 done
 
 
-# number of generated files (defaults to a random number between 10 and 20 if number is not given)
+# number of generated files (defaults to a random number between 10 and 20 if not given)
 number_of_files=${items[0]:-$(( $RANDOM % 20 + 10 ))}
 
-# number of generated folders (defaults to a random number between 1 and 3 if number is not given)
-number_of_folders=${items[1]:-$(( $RANDOM % 3 + 1 ))}
+# number of generated folders (defaults to no folders if not given)
+number_of_folders=${items[1]:-0}
 
 # number of files within a folder (defaults to half of files)
 files_in_folder=${items[2]:-$(( $number_of_files / 2 ))}

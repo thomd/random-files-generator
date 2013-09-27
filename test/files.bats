@@ -8,10 +8,11 @@ load test_helper
   [ "${lines[2]}" == "  Usage: files [options] [number-of-files/folders]" ]
 }
 
-@test "invoking files(1) with a parameter of '10' generates 10 files" {
+@test "invoking files(1) with a parameter of '10' generates 10 files and no folders" {
   run files 10
   [ "$status" -eq 0 ]
   [ "$(number_of_files)" -eq 10 ]
+  [ "$(number_of_folders)" -eq 0 ]
 }
 
 @test "invoking files(1) with a parameter of '10 2' generates 10 files and 2 folders" {
