@@ -11,13 +11,13 @@ teardown() {
 }
 
 number_of_lines() {
-  echo $(find . -type f | xargs cat | wc -l)
+  echo $(find . -type f -not -name ".files" | xargs cat | wc -l)
 }
 
 number_of_files() {
   local path=${1:-.}
   local name=${2:-*}
-  echo $(find $path -type f -name "$name" | wc -l)
+  echo $(find $path -type f -name "$name" -not -name ".files" | wc -l)
 }
 
 number_of_folders() {

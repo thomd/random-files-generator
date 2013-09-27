@@ -4,6 +4,7 @@
 set -e
 
 VERSION="0.1"
+FILES_SESSION="$PWD/.files"
 
 # terminal colors
 GREEN="\033[0;32m"
@@ -111,21 +112,19 @@ seq() {
 
 
 #
-#
+# get tempfile which stores a temporary wordlist
 #
 mktempfile() {
-  set -vx
   echo $(mktemp -t ${1:-`basename $0`}XXXX)
-  set +vx
 }
 
 
 #
-# create a session (temporary file) which stores generated files
+# get session file which stores generated files
 #
 session() {
-  local files_session=$PWD/.files
-  [ ! -e $files_session ] && touch $files_session
+  [ ! -e $FILES_SESSION ] && touch $FILES_SESSION
+  echo $FILES_SESSION
 }
 
 
@@ -164,10 +163,16 @@ while test $# -ne 0; do
       WORDLIST=$1
       ;;
     -c|--content)
-      for f in `find . -type f -not -path "*.git*" -not -path "*.svn*"`
+      for f in `cat $FILES_SESSION`
       do
-         echo $(seq `tail -n 1 $f`) >> $f
+         [ -f $f ] && echo $(seq `tail -n 1 $f`) >> $f
       done
+      exit 1
+      ;;
+    -d|--delete)
+      # delete files first, then folders. As folders were written first, we delete entries in reverse order
+      tail -r $FILES_SESSION | xargs rm -r
+      rm $FILES_SESSION
       exit 1
       ;;
     -v|--version)
@@ -203,6 +208,7 @@ for word in $(words $number_of_folders)
 do
   folder=$(word_seq $word)
   mkdir $folder
+  echo $folder >> $(session)
   folders=(${folders[@]} $folder)
 done
 
@@ -216,11 +222,13 @@ do
   if [ $i -lt $files_in_folder ] && [ $number_of_folders -gt 0 ]; then
     _word=$(word_seq ${folders[$(( $i % $number_of_folders ))]}/$word)
     echo $_word | sed 's/.*\///g' > $_word
+    echo $_word >> $(session)
 
   # ... and then files in current directory
   else
     _word=$(word_seq $word)
     echo $_word > $_word
+    echo $_word >> $(session)
   fi
 
   i=$(( $i + 1 ))
