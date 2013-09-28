@@ -63,14 +63,22 @@ load test_helper
 }
 
 # 9
-@test "invoking 'files -c' should append sequenced content" {
-  run files 1 0
+@test "invoking 'files -c' should append one line of sequenced content" {
+  run files 1
   for i in {1..9}; do run files -c; done
   [ "$(number_of_lines)" -eq 10 ]
   [ "$(cat * | tr -d 0-9 | uniq | wc -l)" -eq 1 ]
 }
 
 # 10
+@test "invoking 'files -3c' should append 3 lines of sequenced content" {
+  run files 1
+  run files -3c
+  [ "$(number_of_lines)" -eq 4 ]
+  [ "$(cat * | tr -d 0-9 | uniq | wc -l)" -eq 1 ]
+}
+
+# 11
 @test "having files reading from stdin should only contain words from stdin" {
   run files 10 <<< "foo"
   [ "$(number_of_files '.' 'foo*')" -eq 10 ]
@@ -78,14 +86,14 @@ load test_helper
   [ "$(number_of_files '.' 'bar*')" -eq 10 ]
 }
 
-# 11
+# 12
 @test "if a wordlist does not exist, use single letters from a-z as words" {
   export WORDLIST=~/non-existing-wordlist.txt
   run files 1 0
   [ "$(number_of_files '.' '[a-z]')" -eq 1 ]
 }
 
-# 12
+# 13
 @test "invoking 'files -d' should delete all generated files from within a session" {
   [ "$(number_of_files)" -eq 0 ]
   run files 10
@@ -94,7 +102,7 @@ load test_helper
   [ "$(number_of_files)" -eq 0 ]
 }
 
-# 13
+# 14
 @test "invoking 'files -s' should start a new session" {
   run files 10
   [ "$(number_of_files)" -eq 10 ]
@@ -104,10 +112,11 @@ load test_helper
   [ "$(number_of_files)" -eq 10 ]
 }
 
-# 14
+# 15
 @test "invoking 'files -l' should list all generated files" {
   run files 5
   run files 5
   run files -l
   [ "${#lines[@]}" -eq 10 ]
 }
+

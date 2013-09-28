@@ -36,10 +36,11 @@ usage() {
   Examples:
 
     $ files                              # generate a random number of files and folders
-    $ files 10                           # generate 10 files, some of them in folders
-    $ files 10 0                         # generate 10 files only
+    $ files 10                           # generate 10 files
+    $ files 10 2                         # generate 10 files and 2 folders
     $ files 10 2 6                       # generate 10 files of which 6 files are in 2 folders
-    $ files -c                           # append furher content to all files in CWD
+    $ files -c                           # append content to all generated files
+    $ files -3c                          # append 3 lines of content to all generated files
     $ files -f mywords.txt               # generate files & folders using words from mywords.txt
     $ cat mywords.txt | files            # generate files & folders using words from mywords.txt
     $ files <<< "foo"                    # generate files & folders using a single word "foo"
@@ -167,11 +168,20 @@ while test $# -ne 0; do
       [ -z $1 ] && echo "provide a file" && echo 1
       [ ! -e $1 ] && echo "file doesn't exist" && echo 1
       WORDLIST=$1
+      shift
       ;;
     -c|--content)
       for f in `cat $FILES_SESSION`
       do
-         [ -f $f ] && echo $(seq `tail -n 1 $f`) >> $f
+        [ -f $f ] && echo $(seq `tail -n 1 $f`) >> $f
+      done
+      exit 1
+      ;;
+    -*c)
+      n=$(echo $arg | tr -cd '[[:digit:]]')
+      for f in `cat $FILES_SESSION`
+      do
+        [ -f $f ] && for (( i=0; i<n; i++ )); do echo $(seq `tail -n 1 $f`) >> $f; done
       done
       exit 1
       ;;
@@ -203,6 +213,8 @@ while test $# -ne 0; do
     *)
       if [[ $arg =~ [[:digit:]] ]]; then
         items=(${items[@]} $arg)
+      else
+        echo $arg
       fi
       ;;
   esac
