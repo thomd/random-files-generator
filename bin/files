@@ -7,9 +7,10 @@ VERSION="0.1"
 FILES_SESSION="$PWD/.files"
 
 # terminal colors
-GREEN="\033[0;32m"
-GREY="\033[1;30m"
-RESET="\033[0m"
+GREEN=$'\033[0;32m'
+BLUE=$'\033[1;34m'
+GREY=$'\033[1;30m'
+RESET=$'\033[0m'
 
 
 #
@@ -181,6 +182,13 @@ while test $# -ne 0; do
       ;;
     -s|--session)
       rm $FILES_SESSION
+      exit 1
+      ;;
+    -l|--list)
+      for f in `cat $FILES_SESSION | sort`
+      do
+        [ -d $f ] && echo "$BLUE${f}/$RESET" || { echo $f | sed "s/^\(.*\)\//$BLUE\1\/$RESET/"; }
+      done
       exit 1
       ;;
     -v|--version)
