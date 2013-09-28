@@ -104,3 +104,10 @@ load test_helper
   [ "$(number_of_files)" -eq 10 ]
 }
 
+# 14
+@test "invoking 'files -l' should list all generated files" {
+  run files 5
+  run files 5
+  run files -l
+  [ "${#lines[@]}" -eq 10 ]
+}

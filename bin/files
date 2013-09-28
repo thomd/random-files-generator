@@ -29,6 +29,7 @@ usage() {
     -c, --content    Add Content to existing files
     -d, --delete     Delete generated files
     -s, --session    Start a new files session
+    -l, --list       List generated files
     -v, --version    Output version
     -h, --help       This message
 
