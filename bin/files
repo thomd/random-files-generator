@@ -185,6 +185,21 @@ while test $# -ne 0; do
       done
       exit 1
       ;;
+    -r|--remove)
+      for f in `cat $FILES_SESSION`
+      do
+        [ -f $f ] && sed -i '' '$d' $f
+      done
+      exit 1
+      ;;
+    -*r)
+      n=$(echo $arg | tr -cd '[[:digit:]]')
+      for f in `cat $FILES_SESSION`
+      do
+        [ -f $f ] && l=`wc -l < $f`; sed -i '' "$(( $l - $n + 1 )),\$d" $f
+      done
+      exit 1
+      ;;
     -d|--delete)
       # delete files first, then folders. As folders were written first, we delete entries in reverse order
       tail -r $FILES_SESSION | xargs rm -r

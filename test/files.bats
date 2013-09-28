@@ -79,6 +79,24 @@ load test_helper
 }
 
 # 11
+@test "invoking 'files -r' should remove last line of content" {
+  run files 1
+  run files -c
+  [ "$(number_of_lines)" -eq 2 ]
+  run files -r
+  [ "$(number_of_lines)" -eq 1 ]
+}
+
+# 12
+@test "invoking 'files -3r' should remove 3 lines of content" {
+  run files 1
+  run files -3c
+  [ "$(number_of_lines)" -eq 4 ]
+  run files -3r
+  [ "$(number_of_lines)" -eq 1 ]
+}
+
+# 13
 @test "having files reading from stdin should only contain words from stdin" {
   run files 10 <<< "foo"
   [ "$(number_of_files '.' 'foo*')" -eq 10 ]
@@ -86,14 +104,14 @@ load test_helper
   [ "$(number_of_files '.' 'bar*')" -eq 10 ]
 }
 
-# 12
+# 14
 @test "if a wordlist does not exist, use single letters from a-z as words" {
   export WORDLIST=~/non-existing-wordlist.txt
   run files 1 0
   [ "$(number_of_files '.' '[a-z]')" -eq 1 ]
 }
 
-# 13
+# 15
 @test "invoking 'files -d' should delete all generated files from within a session" {
   [ "$(number_of_files)" -eq 0 ]
   run files 10
@@ -102,7 +120,7 @@ load test_helper
   [ "$(number_of_files)" -eq 0 ]
 }
 
-# 14
+# 16
 @test "invoking 'files -s' should start a new session" {
   run files 10
   [ "$(number_of_files)" -eq 10 ]
@@ -112,7 +130,7 @@ load test_helper
   [ "$(number_of_files)" -eq 10 ]
 }
 
-# 15
+# 17
 @test "invoking 'files -l' should list all generated files" {
   run files 5
   run files 5
