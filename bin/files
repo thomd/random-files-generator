@@ -203,14 +203,19 @@ done
 # number of generated files (defaults to a random number between 10 and 20 if not given)
 number_of_files=${items[0]:-$(( $RANDOM % 20 + 10 ))}
 
-# number of generated folders (defaults to no folders if not given)
-number_of_folders=${items[1]:-0}
+# if only numer_of_files is given, intentionally set number_of_folders to zero
+[ ${#items[@]} == 1 ] && items[1]=0
+
+# number of generated folders (defaults to a random number between 1 and 3 if number is not given)
+number_of_folders=${items[1]:-$(( $RANDOM % 3 + 1 ))}
 
 # number of files within a folder (defaults to half of files)
 files_in_folder=${items[2]:-$(( $number_of_files / 2 ))}
 
 
+#
 # create folders and store folder names in array for later usage
+#
 folders=()
 for word in $(words $number_of_folders)
 do
@@ -221,8 +226,10 @@ do
 done
 
 
+#
 # generate folders and files
-i=0
+#
+i=0 # loop-index
 for word in $(words $number_of_files)
 do
 
