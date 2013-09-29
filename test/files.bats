@@ -97,21 +97,6 @@ load test_helper
 }
 
 # 13
-@test "having files reading from stdin should only contain words from stdin" {
-  run files 10 <<< "foo"
-  [ "$(number_of_files '.' 'foo*')" -eq 10 ]
-  run $(echo "bar" | files 10)
-  [ "$(number_of_files '.' 'bar*')" -eq 10 ]
-}
-
-# 14
-@test "if a wordlist does not exist, use single letters from a-z as words" {
-  export WORDLIST=~/non-existing-wordlist.txt
-  run files 1 0
-  [ "$(number_of_files '.' '[a-z]')" -eq 1 ]
-}
-
-# 15
 @test "invoking 'files -d' should delete all generated files from within a session" {
   [ "$(number_of_files)" -eq 0 ]
   run files 10
@@ -120,7 +105,28 @@ load test_helper
   [ "$(number_of_files)" -eq 0 ]
 }
 
+# 14
+@test "having files reading from stdin should only contain words from stdin" {
+  run files 10 <<< "foo"
+  [ "$(number_of_files '.' 'foo*')" -eq 10 ]
+  run $(echo "bar" | files 10)
+  [ "$(number_of_files '.' 'bar*')" -eq 10 ]
+}
+
+# 15
+@test "if a wordlist does not exist, use single letters from a-z as words" {
+  export WORDLIST=~/non-existing-wordlist.txt
+  run files 1 0
+  [ "$(number_of_files '.' '[a-z]')" -eq 1 ]
+}
+
 # 16
+@test "invoking 'files foo bar baz' should generate files with names 'foo', 'bar' & 'baz'" {
+  run files 10 foo bar baz
+  [ "$(( $(number_of_files '.' 'foo*') + $(number_of_files '.' 'bar*') + $(number_of_files '.' 'baz*') ))" -eq 10 ]
+}
+
+# 17
 @test "invoking 'files -s' should start a new session" {
   run files 10
   [ "$(number_of_files)" -eq 10 ]
@@ -130,7 +136,7 @@ load test_helper
   [ "$(number_of_files)" -eq 10 ]
 }
 
-# 17
+# 18
 @test "invoking 'files -l' should list all generated files" {
   run files 5
   run files 5

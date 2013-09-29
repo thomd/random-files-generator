@@ -68,11 +68,21 @@ unit() {
 
 
 #
+# create a wordlist file from a word-array
+#
+mkwordlist() {
+  WORDLIST=$(mktempfile)
+  local words=$@
+  for word in $words; do echo $word >> $WORDLIST; done
+}
+
+
+#
 # get array of N words from a wordlist $WORDLIST
 #
 words() {
   local num=$1
-  local w=()
+  local _words=()
   local list_length=$(wc -l < $WORDLIST)
   local MAX_RANDOM=32767   # http://wiki.bash-hackers.org/syntax/shellvars#random
 
@@ -80,9 +90,9 @@ words() {
   do
     local list_index=$(( $RANDOM * $list_length / $MAX_RANDOM + 1 ))
     local word=$(sanitize "$(sed -n $(($list_index))p $WORDLIST)")
-    w[$i]=$word
+    _words[$i]=$word
   done
-  echo "${w[@]}"
+  echo "${_words[@]}"
 }
 
 
@@ -143,8 +153,7 @@ session() {
 WORDLIST=${WORDLIST:-/usr/share/dict/words}
 if [ -t 0 ]; then
   if [ ! -f $WORDLIST ]; then
-    WORDLIST=$(mktempfile)
-    for l in {a..z}; do echo $l >> $WORDLIST; done
+    mkwordlist `echo {a..z}`
   fi
 else
   WORDLIST=$(mktempfile)
@@ -160,6 +169,7 @@ fi
 # parse command arguments
 #
 items=()
+words=()
 while test $# -ne 0; do
   arg=$1
   shift
@@ -229,12 +239,14 @@ while test $# -ne 0; do
       if [[ $arg =~ [[:digit:]] ]]; then
         items=(${items[@]} $arg)
       else
-        echo $arg
+        words=(${words[@]} $arg)
       fi
       ;;
   esac
 done
 
+# create a wordlist from words given by arguments
+[ ! -z $words ] && mkwordlist ${words[@]}
 
 # number of generated files (defaults to a random number between 10 and 20 if not given)
 number_of_files=${items[0]:-$(( $RANDOM % 20 + 10 ))}
