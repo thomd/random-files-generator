@@ -115,7 +115,7 @@ word_seq() {
 #   delete numbers
 #
 sanitize() {
-  echo $(echo $1 | tr A-Z a-z | tr -s ' _' '-' | tr -d "'")
+  echo $(echo $1 | tr A-Z a-z | tr -s ' _' '-' | tr -d "'" | tr -d 0-9)
 }
 
 
