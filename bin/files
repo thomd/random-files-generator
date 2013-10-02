@@ -203,8 +203,8 @@ while test $# -ne 0; do
       exit 1
       ;;
     -d|--delete)
-      # delete files first, then folders. As folders were written first, we delete entries in reverse order
-      tail -r $FILES_SESSION | xargs rm -r
+      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to delete.$RESET" 1>&2 && exit 1
+      tail -r $FILES_SESSION | xargs rm -r   # delete files first, then folders. As folders were written first, we delete entries in reverse order
       rm $FILES_SESSION
       exit 1
       ;;
