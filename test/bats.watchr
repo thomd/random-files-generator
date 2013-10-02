@@ -1,6 +1,10 @@
 # watch files.bats for changes
 #
-# requres watchr gem
+# gem install watchr
+#
+# https://github.com/ervandew/screen
+#    :map <C-k> :ScreenShell! watchr test/bats.watchr<CR>
+#    :map <C-l> :ScreenQuit<CR>
 #
 def run_bats
   system('clear')
