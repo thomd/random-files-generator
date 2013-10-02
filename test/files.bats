@@ -106,11 +106,10 @@ load test_helper
 }
 
 # 14
-@test "having files reading from stdin should only contain words from stdin" {
-  run files 10 <<< "foo"
-  [ "$(number_of_files '.' 'foo*')" -eq 10 ]
-  run $(echo "bar" | files 10)
-  [ "$(number_of_files '.' 'bar*')" -eq 10 ]
+@test "reading words from stdin should generate files with these words" {
+  for w in foo bar baz; do echo $w >> wordlist; done
+  run $(cat wordlist | xargs files 10)
+  [ "$(( $(number_of_files '.' 'foo*') + $(number_of_files '.' 'bar*') + $(number_of_files '.' 'baz*') ))" -eq 10 ]
 }
 
 # 15
