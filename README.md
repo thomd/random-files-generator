@@ -98,6 +98,10 @@ the `DESTDIR` environment variable:
 
 Tests are green on OSX and Ubuntu (via Vagrants lucid32 box).
 
+For faster typing of the `files` command (at least for me), you might set a alias in your `~/.bashrc`:
+
+    alias fls=files
+
 ## Help
 
 Find help on man page via `man files` or check usage-info via `files -h`.
