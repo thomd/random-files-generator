@@ -14,12 +14,20 @@ random content? Think about experimenting with [git][1] or testing a [rsync][2] 
     Options:
 
       -f, --wordfile   Location of a wordfile
-      -c, --content    Add Content to existing files
+      -c, --content    Add one line of content to generated files
+      -r, --remove     Remove one line of content from generated files
+      -d, --delete     Delete all generated files
+      -l, --list       List generated files
+      -s, --session    Start a new session
       -v, --version    Output version
       -h, --help       This message
 
 `files(1)` uses random words from a wordlist for naming files and
 folders. The content of each file is the same as the filename.
+
+Paths of generated files are stored in a simple text file `.files` in
+the current directory. This list is called **session**. All files 
+generated within a session can be deleted or listed.
 
 Out-of-the-box `files(1)` uses the standard OSX wordlist
 `/usr/share/dict/words`. If this wordlist does not exist, `files(1)` uses
@@ -47,7 +55,7 @@ Generate a random number of files and folders:
 
     $ files
 
-Generate 10 files with a random number of them in a random number of folders:
+Generate 10 files in current directory and no folders:
 
     $ files 10
 
@@ -55,10 +63,6 @@ Generate 10 files and 2 folders with a random number of them in these
 two folders:
 
     $ files 10 2
-
-Generate 10 files and no folders:
-
-    $ files 10 0
 
 Generate 10 files of which 6 files are in 2 folders:
 
@@ -68,15 +72,14 @@ Append further content to all files in current working directory:
 
     $ files -c
 
+Generate 10 files using the words "foo", "bar" & "baz":
+
+    $ files 10 foo bar baz
+
 Generate files and folders using words from `mywords.txt`:
 
     $ files -f mywords.txt
-    $ cat mywords.txt | files                       # read words from stdin
-
-Generate 10 files using a single word "foo":
-
-    $ files 10 <<< "foo"                            # read words from stdin using a here-string
-    $ echo -e "foo" | files 10                      # read words from stdin
+    $ cat mywords.txt | xargs files                 # read words from stdin
 
 ## Installation
 

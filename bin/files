@@ -26,7 +26,8 @@ usage() {
   Options:
 
     -f, --wordfile   Location of a wordfile
-    -c, --content    Add Content to existing files
+    -c, --content    Add Content to generated files
+    -r, --remov      remove Content from generated files
     -d, --delete     Delete generated files
     -s, --session    Start a new files session
     -l, --list       List generated files
@@ -41,9 +42,11 @@ usage() {
     $ files 10 2 6                       # generate 10 files of which 6 files are in 2 folders
     $ files -c                           # append content to all generated files
     $ files -3c                          # append 3 lines of content to all generated files
+    $ files -r                           # remove content from all generated files
     $ files -f mywords.txt               # generate files & folders using words from mywords.txt
     $ cat mywords.txt | xargs files      # generate files & folders using words from mywords.txt
     $ files foo bar                      # generate files & folders using the words "foo" and "bar"
+    $ files -d                           # delete all generated files
 
 EOF
 }
