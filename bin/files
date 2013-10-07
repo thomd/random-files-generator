@@ -176,6 +176,7 @@ while test $# -ne 0; do
       shift
       ;;
     -c|--content)
+      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to add content to.$RESET" 1>&2 && exit 1
       for f in `cat $FILES_SESSION`
       do
         [ -f $f ] && echo $(seq `tail -n 1 $f`) >> $f
@@ -183,6 +184,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -*c)
+      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to add content to.$RESET" 1>&2 && exit 1
       n=$(echo $arg | tr -cd '[[:digit:]]')
       for f in `cat $FILES_SESSION`
       do
@@ -191,6 +193,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -r|--remove)
+      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to remove.$RESET" 1>&2 && exit 1
       for f in `cat $FILES_SESSION`
       do
         [ -f $f ] && sed -i '' '$d' $f
@@ -198,6 +201,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -*r)
+      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to remove.$RESET" 1>&2 && exit 1
       n=$(echo $arg | tr -cd '[[:digit:]]')
       for f in `cat $FILES_SESSION`
       do
@@ -212,10 +216,11 @@ while test $# -ne 0; do
       exit 1
       ;;
     -s|--session)
-      rm $FILES_SESSION
+      [ -f $FILES_SESSION ] && rm $FILES_SESSION
       exit 1
       ;;
     -l|--list)
+      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to list.$RESET" 1>&2 && exit 1
       for f in `cat $FILES_SESSION | sort`
       do
         [ -d $f ] && echo "$BLUE${f}/$RESET" || { echo $f | sed "s/^\(.*\)\//$BLUE\1\/$RESET/"; }
