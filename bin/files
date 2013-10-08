@@ -7,6 +7,7 @@ VERSION="0.1"
 FILES_SESSION="$PWD/.files"
 
 # terminal colors
+RED=$'\033[1;31m'
 GREEN=$'\033[0;32m'
 BLUE=$'\033[1;34m'
 GREY=$'\033[1;30m'
@@ -147,6 +148,17 @@ session() {
 }
 
 
+#
+# verify a session file exist
+#
+verify_session() {
+  if [ ! -f $FILES_SESSION ]; then
+    echo -e "\n$RED no random files available.$RESET" 1>&2
+    exit 1
+  fi
+}
+
+
 # source of all words: a wordlist
 #
 # define own wordlist with:
@@ -176,7 +188,7 @@ while test $# -ne 0; do
       shift
       ;;
     -c|--content)
-      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to add content to.$RESET" 1>&2 && exit 1
+      verify_session
       for f in `cat $FILES_SESSION`
       do
         [ -f $f ] && echo $(seq `tail -n 1 $f`) >> $f
@@ -184,7 +196,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -*c)
-      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to add content to.$RESET" 1>&2 && exit 1
+      verify_session
       n=$(echo $arg | tr -cd '[[:digit:]]')
       for f in `cat $FILES_SESSION`
       do
@@ -193,7 +205,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -r|--remove)
-      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to remove.$RESET" 1>&2 && exit 1
+      verify_session
       for f in `cat $FILES_SESSION`
       do
         [ -f $f ] && sed -i '' '$d' $f
@@ -201,7 +213,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -*r)
-      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to remove.$RESET" 1>&2 && exit 1
+      verify_session
       n=$(echo $arg | tr -cd '[[:digit:]]')
       for f in `cat $FILES_SESSION`
       do
@@ -210,7 +222,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -d|--delete)
-      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to delete.$RESET" 1>&2 && exit 1
+      verify_session
       tail -r $FILES_SESSION | xargs rm -r   # delete files first, then folders. As folders were written first, we delete entries in reverse order
       rm $FILES_SESSION
       exit 1
@@ -220,7 +232,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     -l|--list)
-      [ ! -f $FILES_SESSION ] && echo -e "\n$GREY no random files to list.$RESET" 1>&2 && exit 1
+      verify_session
       for f in `cat $FILES_SESSION | sort`
       do
         [ -d $f ] && echo "$BLUE${f}/$RESET" || { echo $f | sed "s/^\(.*\)\//$BLUE\1\/$RESET/"; }
