@@ -3,7 +3,7 @@
 # exit on error
 set -e
 
-VERSION="0.1"
+VERSION="0.2"
 
 # Location of the session file.
 # This file contains all file names which were generated in the current working directory

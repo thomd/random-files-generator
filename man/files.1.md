@@ -2,8 +2,8 @@
 
 ## SYNOPSIS
 
-**files** [**-vh**] [**-f** _wordfile_] [*num_files*] [*num_folders*] [*num_files_in_folders*]  
-**files** **-c**
+**files** [**-f** _wordfile_] [*num_files*] [*num_folders*] [*num_files_in_folders*] [*word* ...]  
+**files** [**-vhcdrls**]
 
 ## DESCRIPTION
 
@@ -11,15 +11,32 @@ generate random files and folders for testing or experimenting.
 
 `files` uses random words from a wordlist for naming files and folders. The content of each file
 is the same as the filename. Out-of-the-box `files` uses the standard OSX wordlist _/usr/share/dict/words_.
-If this wordlist does not exist, `files` uses letters for naming files and folders. You may also 
+If this wordlist does not exist, `files` uses bare letters for naming files and folders. You may also 
 provide an own wordlist via an environment variable WORDLIST or the **-f** option.
+
+Metadata of generated files are stored in a simple text file `.files` in the current working directory.
+This is called a _session_. All files generated within a _session_ can be deleted, listed or manipulated.
 
 ## OPTIONS
 **-f**, **--wordfile**
     Location of a wordfile
 
 **-c**, **--content**
-    Add Content to existing files
+    Add one line of ontent to existing files. Prefix short option with a number for adding multiple lines. 
+    Example: **-6c** adds six lines of content.
+
+**-r**, **--remove**
+    Remove last line of ontent from existing files. Prefix short option with a number for removing multiple lines. 
+    Example: **-6r** removes six lines of content.
+
+**-d**, **--delete**
+    Delete all generated files of a _session_
+
+**-l**, **--list**
+    List all generated files of a _session_
+
+**-s**, **--session**
+    Start a new _session_ (if no session exist, a new one is created).
 
 **-v**, **--version**
     Output version
@@ -31,36 +48,30 @@ provide an own wordlist via an environment variable WORDLIST or the **-f** optio
 WORDLIST specifies an own wordlist. Default is _/usr/share/dict/words_
 
 ## EXAMPLES
-
 Generate a random number of files and folders:
 
       files
 
-Generate 10 files, a random number of them in folders:
+Generate 10 files:
 
       files 10
 
-Generate 10 files only (no folders):
+Generate 10 files using the words 'foo', 'bar' and 'baz':
 
-      files 10 0
+      files 10 foo bar baz
 
-Generate 10 files of which 6 files are in 2 folders:
-
-      files 10 2 6
-
-Append furher content to all files in current working directory:
+Append content to all generated files:
 
       files -c
 
+Delete all generated files:
+
+      files -d
+
 Generate files and folders using words from _mywords.txt_:
 
-      files -f mywords.txt  
-      cat mywords.txt | files                      # using STDIN
-
-Generate 10 files using a single word "foo":
-
-      files 10 <<< "foo"  
-      echo -e "foo" | files 10                     # using STDIN
+      files -f mywords.txt
+      cat mywords.txt | xargs files               # alternatively using STDIN
 
 ## AUTHOR
 **Thomas Duerr** (thomduerr@gmail.com)

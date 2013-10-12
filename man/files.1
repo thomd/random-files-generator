@@ -1,26 +1,43 @@
-.TH "FILES" "1" "September 2013" "0.1" ""
+.TH "FILES" "1" "October 2013" "0.2" ""
 .SH "NAME"
 \fBfiles\fR \- a random files generator
 .SH SYNOPSIS
 .P
-\fBfiles\fR [\fB\-vh\fR] [\fB\-f\fR \fIwordfile\fR] [\fInum_files\fR] [\fInum_folders\fR] [\fInum_files_in_folders\fR]
+\fBfiles\fR [\fB\-f\fR \fIwordfile\fR] [\fInum_files\fR] [\fInum_folders\fR] [\fInum_files_in_folders\fR] [\fIword\fR \.\.\.]
 .br
-\fBfiles\fR \fB\-c\fR
+\fBfiles\fR [\fB\-vhcdrls\fR]
 .SH DESCRIPTION
 .P
 generate random files and folders for testing or experimenting\.
 .P
 \fBfiles\fR uses random words from a wordlist for naming files and folders\. The content of each file
 is the same as the filename\. Out\-of\-the\-box \fBfiles\fR uses the standard OSX wordlist \fI/usr/share/dict/words\fR\|\.
-If this wordlist does not exist, \fBfiles\fR uses letters for naming files and folders\. You may also 
+If this wordlist does not exist, \fBfiles\fR uses bare letters for naming files and folders\. You may also 
 provide an own wordlist via an environment variable WORDLIST or the \fB\-f\fR option\.
+.P
+Metadata of generated files are stored in a simple text file \fB\|\.files\fR in the current working directory\.
+This is called a \fIsession\fR\|\. All files generated within a \fIsession\fR can be deleted, listed or manipulated\.
 .SH OPTIONS
 .P
 \fB\-f\fR, \fB\-\-wordfile\fR
     Location of a wordfile
 .P
 \fB\-c\fR, \fB\-\-content\fR
-    Add Content to existing files
+    Add one line of ontent to existing files\. Prefix short option with a number for adding multiple lines\. 
+    Example: \fB\-6c\fR adds six lines of content\.
+.P
+\fB\-r\fR, \fB\-\-remove\fR
+    Remove last line of ontent from existing files\. Prefix short option with a number for removing multiple lines\. 
+    Example: \fB\-6r\fR removes six lines of content\.
+.P
+\fB\-d\fR, \fB\-\-delete\fR
+    Delete all generated files of a \fIsession\fR
+.P
+\fB\-l\fR, \fB\-\-list\fR
+    List all generated files of a \fIsession\fR
+.P
+\fB\-s\fR, \fB\-\-session\fR
+    Start a new \fIsession\fR (if no session exist, a new one is created)\.
 .P
 \fB\-v\fR, \fB\-\-version\fR
     Output version
@@ -40,7 +57,7 @@ Generate a random number of files and folders:
 .EE
 .RE
 .P
-Generate 10 files, a random number of them in folders:
+Generate 10 files:
 .P
 .RS 2
 .EX
@@ -48,23 +65,15 @@ Generate 10 files, a random number of them in folders:
 .EE
 .RE
 .P
-Generate 10 files only (no folders):
+Generate 10 files using the words \'foo\', \'bar\' and \'baz\':
 .P
 .RS 2
 .EX
-  files 10 0
+  files 10 foo bar baz
 .EE
 .RE
 .P
-Generate 10 files of which 6 files are in 2 folders:
-.P
-.RS 2
-.EX
-  files 10 2 6
-.EE
-.RE
-.P
-Append furher content to all files in current working directory:
+Append content to all generated files:
 .P
 .RS 2
 .EX
@@ -72,21 +81,20 @@ Append furher content to all files in current working directory:
 .EE
 .RE
 .P
+Delete all generated files:
+.P
+.RS 2
+.EX
+  files \-d
+.EE
+.RE
+.P
 Generate files and folders using words from \fImywords\.txt\fR:
 .P
 .RS 2
 .EX
-  files \-f mywords\.txt  
-  cat mywords\.txt | files                      # using STDIN
-.EE
-.RE
-.P
-Generate 10 files using a single word "foo":
-.P
-.RS 2
-.EX
-  files 10 <<< "foo"  
-  echo \-e "foo" | files 10                     # using STDIN
+  files \-f mywords\.txt
+  cat mywords\.txt | xargs files               # alternatively using STDIN
 .EE
 .RE
 .SH AUTHOR
