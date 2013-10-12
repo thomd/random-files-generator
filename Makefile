@@ -23,6 +23,10 @@ man: man/files.1
 man/files.1: man/files.1.md
 	marked-man --version=${VERSION} man/files.1.md > man/files.1
 
-.PHONY: install uninstall test man
+# https://github.com/rtomayko/ronn
+html: man/files.1.md
+	ronn --html man/files.1.md
+
+.PHONY: install uninstall test man html
 
 
