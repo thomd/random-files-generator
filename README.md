@@ -7,9 +7,19 @@ random content? Think about experimenting with [git][1] or testing a [rsync][2] 
 
 ![example of files(1) usage][img1]
 
+`files(1)` uses random words from a wordlist for naming files and
+folders. The content of each file is the same as the filename.
+
+Alternatively you can provide words to use as command arguments like so:
+
+    $ files 5 foo bar baz
+
+This generates five files with 'foo', 'bar' and 'baz' as names for the
+files and the content.
+
 ## Usage
 
-    Usage: files [options] [number-of-files/folders]
+    Usage: files [options] [number ...] [word ...]
 
     Options:
 
@@ -22,16 +32,15 @@ random content? Think about experimenting with [git][1] or testing a [rsync][2] 
       -v, --version    Output version
       -h, --help       This message
 
-`files(1)` uses random words from a wordlist for naming files and
-folders. The content of each file is the same as the filename.
-
 Paths of generated files are stored in a simple text file `.files` in
-the current directory. This list is called **session**. All files 
-generated within a session can be deleted or listed.
+the current directory (you should `echo ".files" >> ~/.gitignore`). 
+This list is called a **files session**. All files generated within a 
+session can be deleted, listed or added with more content.
 
 Out-of-the-box `files(1)` uses the standard OSX wordlist
-`/usr/share/dict/words`. If this wordlist does not exist, `files(1)` uses
-letters for naming files and folders.
+`/usr/share/dict/words`. If this wordlist does not exist and no words are 
+explicetly given as command arguments, `files(1)` uses bare letters for 
+naming files and folders.
 
 You may provide an own wordlist via an environment variable `WORDLIST`
 
@@ -39,56 +48,90 @@ You may provide an own wordlist via an environment variable `WORDLIST`
 
 or provide words via STDIN:
 
-    $ cat wordlist.txt | files 10
+    $ cat wordlist.txt | xargs files 10
 
-The three key parameter for generating files are
+The three numerical key parameter for generating files are in this
+order:
 
 * number of files
 * number of folders
-* number of files to be moved into the folders
+* number of files to be moved into this folders
 
 All three parameter are optional (see Examples).
 
 ## Examples
 
+### Generating new files
+
 Generate a random number of files and folders:
 
     $ files
 
-Generate 10 files in current directory and no folders:
+Generate a random number of files and folders using the words 'foo', 'bar' & 'baz':
+
+    $ files foo bar baz
+
+Generate 10 files in current directory:
 
     $ files 10
 
-Generate 10 files and 2 folders with a random number of them in these
-two folders:
+Generate 10 files of which a random number of them are moved into 2 folders:
 
     $ files 10 2
 
-Generate 10 files of which 6 files are in 2 folders:
+Generate 10 files of which 6 files are randomly moved into 2 folders:
 
     $ files 10 2 6
 
-Append further content to all files in current working directory:
-
-    $ files -c
-
-Generate 10 files using the words "foo", "bar" & "baz":
+Generate 10 files using the words 'foo', 'bar' & 'baz':
 
     $ files 10 foo bar baz
 
 Generate files and folders using words from `mywords.txt`:
 
     $ files -f mywords.txt
-    $ cat mywords.txt | xargs files                 # read words from stdin
+    $ cat mywords.txt | xargs files
+
+### Manipulation if generated files
+
+Append one line of random content to all generated files of a session:
+
+    $ files -c
+
+Append six lines of random content to all generated files of a session:
+
+    $ files -6c
+
+Remove last line of content of all generated files of a session:
+
+    $ files -r
+
+Append last six lines of content of all generated files of a session:
+
+    $ files -6r
+
+Delete all generated files of a session:
+
+    $ files -d
+
+Start a new session (if no session exist, a new one is created):
+
+    $ files -s
+
+## Help
+
+Find help on man page via `man files` or check usage info via `files -h`.
 
 ## Installation
 
 Use `Makefile` for installation. First run tests, then install binary
-and man page. Please install the bash testing framework [bats][3] before
+and man page. Install the bash testing framework [bats][3] before
 running the tests.
 
     make test
     sudo make install                              # installs binary and man page
+
+Tests are green on OSX and Ubuntu lucid 32 (using [Vagrant][4]).
 
 Without `sudo` privileges, you may install binary and man page into your home directory using 
 the `DESTDIR` environment variable:
@@ -99,15 +142,9 @@ the `DESTDIR` environment variable:
     
     make DESTDIR=~ install
 
-Tests are green on OSX and Ubuntu (via Vagrants lucid32 box).
-
 For faster typing of the `files` command (at least for me), you might set a alias in your `~/.bashrc`:
 
     alias fls=files
-
-## Help
-
-Find help on man page via `man files` or check usage-info via `files -h`.
 
 ## License
 
@@ -117,3 +154,4 @@ Find help on man page via `man files` or check usage-info via `files -h`.
 [2]: http://man.cx/rsync(1)
 [3]: https://github.com/sstephenson/bats
 [img1]: https://raw.github.com/thomd/random-files-generator/images/files.png
+[4]: http://docs.vagrantup.com/v2/

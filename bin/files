@@ -4,6 +4,9 @@
 set -e
 
 VERSION="0.1"
+
+# Location of the session file.
+# This file contains all file names which were generated in the current working directory
 FILES_SESSION="$PWD/.files"
 
 # terminal colors
