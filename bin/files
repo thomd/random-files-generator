@@ -57,7 +57,7 @@ EOF
 # status message
 #
 message() {
-  if [ $number_of_folders -eq 0 ]; then
+  if [ "$number_of_folders" -eq 0 ]; then
     echo -e "\n$GREY generated $GREEN$(unit $number_of_files file)$GREY in current directory.$RESET"
   else
     echo -e "\n$GREY generated $GREEN$(unit $(( $number_of_files - $files_in_folder )) file)$GREY in current directory and $GREEN$(unit $files_in_folder file)$GREY in $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
@@ -65,7 +65,7 @@ message() {
 }
 unit() {
   local plural="s"
-  [ $1 -eq 1 ] && plural=""
+  [ "$1" -eq 1 ] && plural=""
   echo "$1 $2$plural"
 }
 
@@ -249,7 +249,7 @@ while test $# -ne 0; do
       exit 1
       ;;
     *)
-      if [[ $arg =~ [[:digit:]] ]]; then
+      if [[ $arg =~ ^[0-9]+$ ]]; then
         items=(${items[@]} $arg)
       else
         words=(${words[@]} $arg)
@@ -257,6 +257,7 @@ while test $# -ne 0; do
       ;;
   esac
 done
+
 
 # create a wordlist from words given by arguments
 [ ! -z $words ] && mkwordlist ${words[@]}
