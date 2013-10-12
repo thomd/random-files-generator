@@ -39,7 +39,7 @@ session can be deleted, listed or added with more content.
 
 Out-of-the-box `files(1)` uses the standard OSX wordlist
 `/usr/share/dict/words`. If this wordlist does not exist and no words are 
-explicetly given as command arguments, `files(1)` uses bare letters for 
+explicitly given as command arguments, `files(1)` uses bare letters for 
 naming files and folders.
 
 You may provide an own wordlist via an environment variable `WORDLIST`
@@ -92,7 +92,7 @@ Generate files and folders using words from `mywords.txt`:
     $ files -f mywords.txt
     $ cat mywords.txt | xargs files
 
-### Manipulation if generated files
+### Manipulation of generated files
 
 Append one line of random content to all generated files of a session:
 
