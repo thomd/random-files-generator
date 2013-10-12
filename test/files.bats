@@ -143,3 +143,12 @@ load test_helper
   [ "${#lines[@]}" -eq 10 ]
 }
 
+# 19
+@test "words should be sanitized" {
+  run files 1 "F2oo_B'a.r"
+  [ "$(number_of_files '.' 'foo-bar')" -eq 1 ]
+  echo "foo bar" > wordlist.txt
+  run files -f wordlist.txt 1
+  [ "$(number_of_files '.' 'foo-bar')" -eq 1 ]
+}
+
