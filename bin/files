@@ -278,14 +278,16 @@ files_in_folder=${items[2]:-$(( $number_of_files / 2 ))}
 #
 # create folders and store folder names in array for later usage
 #
-folders=()
-for word in $(words $number_of_folders)
-do
-  folder=$(word_seq $word)
-  mkdir $folder
-  echo $folder >> $(session)
-  folders=(${folders[@]} $folder)
-done
+if [ $number_of_folders -gt 0 ]; then
+  folders=()
+  for word in $(words $number_of_folders)
+  do
+    folder=$(word_seq $word)
+    mkdir $folder
+    echo $folder >> $(session)
+    folders=(${folders[@]} $folder)
+  done
+fi
 
 
 #
