@@ -6,7 +6,7 @@ load test_helper
 @test "invoking 'files -h' should print usage info" {
   run files -h
   [ "$status" -eq 1 ]
-  [ "${lines[2]}" == "  Usage: files [options] [number-of-files/folders]" ]
+  [ "${lines[0]}" == "  random files generator" ]
 }
 
 # 2
