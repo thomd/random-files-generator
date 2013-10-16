@@ -118,14 +118,14 @@ word_seq() {
 
 #
 # sanitize words:
-#   uppercase to lowercase
-#   replace whitespaces and underscores with a dash
-#   remove single quotes
-#   remove numbers
-#   remove dots
+#   1) uppercase to lowercase
+#   2) remove numbers
+#   3) transliteration
+#   4) replace whitespaces and underscores with a dash
+#   5) remove double-quotes, single-quotes and dots
 #
 sanitize() {
-  echo $(echo $1 | tr A-Z a-z | tr -s ' _' '-' | tr -d "'" | tr -d 0-9 | tr -d .)
+  echo $(echo $1 | tr A-Z a-z | tr -d 0-9 | iconv -f utf-8 -t ascii//translit | tr -s ' _' '-' | tr -d "\"'." )
 }
 
 
