@@ -229,7 +229,7 @@ while test $# -ne 0; do
       ;;
     -d|--delete)
       verify_session
-      tail -r $FILES_SESSION | xargs rm -r   # delete files first, then folders. As folders were written first, we delete entries in reverse order
+      sed -n '1!G;h;$p' $FILES_SESSION | xargs rm -r   # delete files first, then folders. As folders were written first, we delete entries in reverse order
       rm $FILES_SESSION
       exit 1
       ;;
