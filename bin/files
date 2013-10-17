@@ -214,7 +214,7 @@ while test $# -ne 0; do
       verify_session
       for f in `cat $FILES_SESSION`
       do
-        [ -f $f ] && sed -i '' '$d' $f
+        [ -f $f ] && sed \$d $f > $f.temp && mv $f.temp $f
       done
       exit 1
       ;;
@@ -223,7 +223,7 @@ while test $# -ne 0; do
       n=$(echo $arg | tr -cd '[[:digit:]]')
       for f in `cat $FILES_SESSION`
       do
-        [ -f $f ] && l=`wc -l < $f`; sed -i '' "$(( $l - $n + 1 )),\$d" $f
+        [ -f $f ] && l=`wc -l < $f`; sed "$(( $l - $n + 1 )),\$d" $f > $f.temp && mv $f.temp $f
       done
       exit 1
       ;;
