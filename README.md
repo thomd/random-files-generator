@@ -131,15 +131,14 @@ running the tests.
     make test
     sudo make install                              # installs binary and man page
 
-Tests are green on OSX and Ubuntu lucid 32 (using [Vagrant][4]).
+Tests are green on OSX and Debian Linux (using [Vagrant][4]).
 
 Without `sudo` privileges, you may install binary and man page into your home directory using 
 the `DESTDIR` environment variable:
 
-    mkdir ~/bin ~/share/man
+    mkdir -p ~/bin ~/share/man
     export PATH=~/bin:$PATH
     unset MANPATH && export MANPATH=~/share/man:$(manpath)
-    
     make DESTDIR=~ install
 
 For faster typing of the `files` command (at least for me), you might set a alias in your `~/.bashrc`:
