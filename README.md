@@ -23,14 +23,15 @@ files and the content.
 
     Options:
 
-      -f, --wordfile   Location of a wordfile
-      -c, --content    Add one line of content to generated files
-      -r, --remove     Remove one line of content from generated files
-      -d, --delete     Delete all generated files
-      -l, --list       List generated files
-      -s, --session    Start a new session
-      -v, --version    Output version
-      -h, --help       This message
+      -f, --wordfile <file>    Location of a wordfile
+      -e, --extension <ext>    Extension of generated files
+      -c, --content            Add one line of content to generated files
+      -r, --remove             Remove one line of content from generated files
+      -d, --delete             Delete all generated files
+      -l, --list               List generated files
+      -s, --session            Start a new session
+      -v, --version            Output version
+      -h, --help               This message
 
 Paths of generated files are stored in a simple text file `.files` in
 the current directory (you should `echo ".files" >> ~/.gitignore`). 
@@ -86,6 +87,10 @@ Generate 10 files of which 6 files are randomly moved into 2 folders:
 Generate 10 files using the words 'foo', 'bar' & 'baz':
 
     $ files 10 foo bar baz
+
+Generate 10 files with extension 'txt' using the words 'foo', 'bar' & 'baz':
+
+    $ files 10 -e txt foo bar baz
 
 Generate files and folders using words from `mywords.txt`:
 

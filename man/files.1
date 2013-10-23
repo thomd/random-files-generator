@@ -1,9 +1,9 @@
-.TH "FILES" "1" "October 2013" "0.3" ""
+.TH "FILES" "1" "October 2013" "0.1" ""
 .SH "NAME"
 \fBfiles\fR \- a random files generator
 .SH SYNOPSIS
 .P
-\fBfiles\fR [\fB\-f\fR \fIwordfile\fR] [\fInum_files\fR] [\fInum_folders\fR] [\fInum_files_in_folders\fR] [\fIword\fR \.\.\.]
+\fBfiles\fR [\fB\-f\fR \fIwordfile\fR] [\fB\-e\fR \fIextension\fR] [\fInumber\fR \.\.\.] [\fIword\fR \.\.\.]
 .br
 \fBfiles\fR [\fB\-vhcdrls\fR]
 .SH DESCRIPTION
@@ -17,10 +17,21 @@ provide an own wordlist via an environment variable WORDLIST or the \fB\-f\fR op
 .P
 Metadata of generated files are stored in a simple text file \fB\|\.files\fR in the current working directory\.
 This is called a \fIsession\fR\|\. All files generated within a \fIsession\fR can be deleted, listed or manipulated\.
+.P
+\fBfiles\fR can have up to three optional \fInumbers\fR as arguments:
+.br
+1) number of generated files
+.br
+2) number of generated folders (defaults to zero if not given)
+.br
+3) number of files to be moved inside the folders (hence can\'t be higher than number of files)
 .SH OPTIONS
 .P
 \fB\-f\fR, \fB\-\-wordfile\fR
     Location of a wordfile
+.P
+\fB\-e\fR, \fB\-\-extension\fR
+    Extension of generated files
 .P
 \fB\-c\fR, \fB\-\-content\fR
     Add one line of ontent to existing files\. Prefix short option with a number for adding multiple lines\. 
@@ -62,6 +73,22 @@ Generate 10 files:
 .RS 2
 .EX
   files 10
+.EE
+.RE
+.P
+Generate (zero files and) 10 folders:
+.P
+.RS 2
+.EX
+  files 0 10
+.EE
+.RE
+.P
+Generate 10 files inside 2 folders:
+.P
+.RS 2
+.EX
+  files 10 2 10
 .EE
 .RE
 .P

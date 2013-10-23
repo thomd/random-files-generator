@@ -152,3 +152,10 @@ load test_helper
   [ "$(number_of_files '.' 'foo-bar')" -eq 1 ]
 }
 
+# 20
+@test "invoking 'files -e txt' should generate files with extension 'txt'" {
+  run files 1 -e txt foo
+  run files 1 footxt
+  [ "$(number_of_files '.' '*.txt')" -eq 1 ]
+}
+

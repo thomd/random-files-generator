@@ -9,6 +9,9 @@ VERSION="0.3"
 # This file contains all file names which were generated in the current working directory
 FILES_SESSION="$PWD/.files"
 
+# extension of generated files (default: none)
+EXTENSION=""
+
 # terminal colors
 RED=$'\033[1;31m'
 GREEN=$'\033[0;32m'
@@ -29,14 +32,15 @@ usage() {
 
   Options:
 
-    -f, --wordfile   Location of a wordfile
-    -c, --content    Add content to generated files
-    -r, --remov      Remove content from generated files
-    -l, --list       List generated files
-    -d, --delete     Delete generated files (including session file)
-    -s, --session    Start new files-session (delete session file)
-    -v, --version    Output version
-    -h, --help       This message
+    -f, --wordfile    Location of a wordfile
+    -e, --extension   Extension of generated files
+    -c, --content     Add content to generated files
+    -r, --remov       Remove content from generated files
+    -l, --list        List generated files
+    -d, --delete      Delete generated files (including session file)
+    -s, --session     Start new files-session (delete session file)
+    -v, --version     Output version
+    -h, --help        This message
 
   Examples:
 
@@ -44,9 +48,10 @@ usage() {
     $ files 10                           # generate 10 files and no folders
     $ files 10 2                         # generate 10 files and 2 folders
     $ files 10 2 6                       # generate 10 files of which 6 files are in 2 folders
-    $ files foo bar baz                  # generate files & folders using the words "foo", "bar" and "baz"
-    $ files 10 foo bar baz               # generate 10 files using the words "foo", "bar" and "baz"
+    $ files foo bar baz                  # generate files & folders using the words 'foo', 'bar' and 'baz'
+    $ files 10 foo bar baz               # generate 10 files using the words 'foo', 'bar' and 'baz'
     $ files -f mywords.txt               # generate files & folders using words from mywords.txt
+    $ files -e txt                       # generate files with extension 'txt'
     $ cat mywords.txt | xargs files      # generate files & folders using words from mywords.txt
     $ files -c                           # append content to all generated files
     $ files -3c                          # append 3 lines of content to all generated files
@@ -201,6 +206,11 @@ while test $# -ne 0; do
       WORDLIST=$1
       shift
       ;;
+    -e|--extension)
+      [ -z $1 ] && echo "provide an extension" 1>&2 && exit 1
+      EXTENSION=".$1"
+      shift
+      ;;
     -c|--content)
       verify_session
       for f in `cat $FILES_SESSION`
@@ -322,7 +332,7 @@ do
   # ... and then files in current directory
   else
     _word=$(word_seq $word)
-    echo $_word > $_word
+    echo $_word > "${_word}${EXTENSION}"
     echo $_word >> $(session)
   fi
 

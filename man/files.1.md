@@ -2,7 +2,7 @@
 
 ## SYNOPSIS
 
-**files** [**-f** _wordfile_] [*num_files*] [*num_folders*] [*num_files_in_folders*] [*word* ...]  
+**files** [**-f** _wordfile_] [**-e** _extension_] [*number* ...] [*word* ...]  
 **files** [**-vhcdrls**]
 
 ## DESCRIPTION
@@ -17,9 +17,17 @@ provide an own wordlist via an environment variable WORDLIST or the **-f** optio
 Metadata of generated files are stored in a simple text file `.files` in the current working directory.
 This is called a _session_. All files generated within a _session_ can be deleted, listed or manipulated.
 
+`files` can have up to three optional _numbers_ as arguments:  
+1) number of generated files  
+2) number of generated folders (defaults to zero if not given)  
+3) number of files to be moved inside the folders (hence can't be higher than number of files)
+
 ## OPTIONS
 **-f**, **--wordfile**
     Location of a wordfile
+
+**-e**, **--extension**
+    Extension of generated files
 
 **-c**, **--content**
     Add one line of ontent to existing files. Prefix short option with a number for adding multiple lines. 
@@ -55,6 +63,14 @@ Generate a random number of files and folders:
 Generate 10 files:
 
       files 10
+
+Generate (zero files and) 10 folders:
+
+      files 0 10
+
+Generate 10 files inside 2 folders:
+
+      files 10 2 10
 
 Generate 10 files using the words 'foo', 'bar' and 'baz':
 
