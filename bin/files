@@ -287,6 +287,9 @@ number_of_folders=${items[1]:-$(( $RANDOM % 3 + 1 ))}
 # number of files within a folder (defaults to half of files)
 files_in_folder=${items[2]:-$(( $number_of_files / 2 ))}
 
+# number of files inside folders can't be higher than the number generated of files
+[ $files_in_folder -gt $number_of_files ] && { files_in_folder=$number_of_files; }
+
 
 #
 # create folders and store folder names in array for later usage
