@@ -196,8 +196,8 @@ while test $# -ne 0; do
   shift
   case $arg in
     -f|--wordfile)
-      [ -z $1 ] && echo "provide a file" && echo 1
-      [ ! -e $1 ] && echo "file doesn't exist" && echo 1
+      [ -z $1 ] && echo "provide a file" 1>&2 && exit 1
+      [ ! -e $1 ] && echo "file doesn't exist" 1>&2 && exit 1
       WORDLIST=$1
       shift
       ;;
