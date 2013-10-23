@@ -326,16 +326,15 @@ do
   # create files in folders first ...
   if [ $i -lt $files_in_folder ] && [ $number_of_folders -gt 0 ]; then
     _word=$(word_seq ${folders[$(( $i % $number_of_folders ))]}/$word)
-    echo $_word | sed 's/.*\///g' > $_word
-    echo $_word >> $(session)
+    echo $_word | sed 's/.*\///g' > "${_word}${EXTENSION}"
 
   # ... and then files in current directory
   else
     _word=$(word_seq $word)
     echo $_word > "${_word}${EXTENSION}"
-    echo $_word >> $(session)
   fi
 
+  echo "${_word}${EXTENSION}" >> $(session)
   i=$(( $i + 1 ))
 done
 
