@@ -62,8 +62,16 @@ EOF
 # status message
 #
 message() {
-  if [ "$number_of_folders" -eq 0 ]; then
+  if [ "$number_of_files" -eq 0 ] && [ "$number_of_folders" -eq 0 ]; then
+    echo -e "\n$GREY generated nothing.$RESET"
+  elif [ "$number_of_files" -eq 0 ]; then
+    echo -e "\n$GREY generated $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
+  elif [ "$number_of_folders" -eq 0 ]; then
     echo -e "\n$GREY generated $GREEN$(unit $number_of_files file)$GREY in current directory.$RESET"
+  elif [ "$files_in_folder" -eq 0 ]; then
+    echo -e "\n$GREY generated $GREEN$(unit $(( $number_of_files - $files_in_folder )) file)$GREY in current directory and $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
+  elif [ "$number_of_files" -eq "$files_in_folder" ]; then
+    echo -e "\n$GREY generated $GREEN$(unit $files_in_folder file)$GREY in $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
   else
     echo -e "\n$GREY generated $GREEN$(unit $(( $number_of_files - $files_in_folder )) file)$GREY in current directory and $GREEN$(unit $files_in_folder file)$GREY in $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
   fi
