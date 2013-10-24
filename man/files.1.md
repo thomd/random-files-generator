@@ -17,7 +17,8 @@ provide an own wordlist via an environment variable WORDLIST or the **-f** optio
 Metadata of generated files are stored in a simple text file `.files` in the current working directory.
 This is called a _session_. All files generated within a _session_ can be deleted, listed or manipulated.
 
-`files` can have up to three optional _numbers_ as arguments:  
+`files` can have up to three optional _numbers_ as arguments in this
+given order:  
 1) number of generated files  
 2) number of generated folders (defaults to zero if not given)  
 3) number of files to be moved inside the folders (hence can't be higher than number of files)
