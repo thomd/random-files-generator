@@ -67,24 +67,45 @@ EOF
 # status message
 #
 message() {
+  printf "\n$GREY "
   if [ "$number_of_files" -eq 0 ] && [ "$number_of_folders" -eq 0 ]; then
-    echo -e "\n$GREY generated nothing.$RESET"
+    printf "generated nothing"
+
   elif [ "$number_of_files" -eq 0 ]; then
-    echo -e "\n$GREY generated $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
+    printf "generated $(num "folder")" \
+      "$number_of_folders" "$(plural "$number_of_folders")"
+
   elif [ "$number_of_folders" -eq 0 ]; then
-    echo -e "\n$GREY generated $GREEN$(unit $number_of_files file)$GREY in current directory.$RESET"
+    printf "generated $(num "file") in current directory" \
+      "$number_of_files" "$(plural "$number_of_files")"
+
   elif [ "$files_in_folder" -eq 0 ]; then
-    echo -e "\n$GREY generated $GREEN$(unit $(( $number_of_files - $files_in_folder )) file)$GREY in current directory and $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
+    local files=$(( $number_of_files - $files_in_folder ))
+    printf "generated $(num "file") in current directory and $(num "folder")" \
+      "$files" "$(plural "$files")" \
+      "$number_of_folders" "$(plural "$number_of_folders")"
+
   elif [ "$number_of_files" -eq "$files_in_folder" ]; then
-    echo -e "\n$GREY generated $GREEN$(unit $files_in_folder file)$GREY in $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
+    printf "generated $(num "file") in $(num "folder")" \
+      "$files_in_folder" "$(plural "$files_in_folder")" \
+      "$number_of_folders" "$(plural "$number_of_folders")"
+
   else
-    echo -e "\n$GREY generated $GREEN$(unit $(( $number_of_files - $files_in_folder )) file)$GREY in current directory and $GREEN$(unit $files_in_folder file)$GREY in $GREEN$(unit $number_of_folders folder)$GREY.$RESET"
+    local files=$(( $number_of_files - $files_in_folder ))
+    printf "generated $(num "file") in current directory and $(num "file") in $(num "folder")" \
+      "$files" "$(plural "$files")" \
+      "$files_in_folder" "$(plural "$files_in_folder")" \
+      "$number_of_folders" "$(plural "$number_of_folders")"
   fi
+  printf "$GREY.$RESET\n"
 }
-unit() {
-  local plural="s"
-  [ "$1" -eq 1 ] && plural=""
-  echo "$1 $2$plural"
+
+num() {
+  echo "$GREEN%d $1%s$GREY"
+}
+
+plural() {
+  [ "$1" -eq 1 ] || echo "s"
 }
 
 
