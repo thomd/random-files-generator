@@ -97,7 +97,7 @@ message() {
       "$files_in_folder" "$(plural "$files_in_folder")" \
       "$number_of_folders" "$(plural "$number_of_folders")"
   fi
-  printf "$GREY.$RESET\n"
+  printf ".$RESET\n"
 }
 
 num() {
