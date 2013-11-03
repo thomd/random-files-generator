@@ -130,15 +130,15 @@ Find help on man page via `man files` or check usage info via `files -h`.
 ## Installation
 
 Use `Makefile` for installation. First run tests, then install binary
-and man page. Install the bash testing framework [bats][3] before
-running the tests.
+and man page. Binary is installed into `/usr/local/bin`.
+Install the bash testing framework [bats][3] before running the tests.
 
     make test
-    sudo make install                              # installs binary and man page
+    make install                              # installs binary and man page
 
 Tests are green on OSX and Debian Linux (using [Vagrant][4]).
 
-Without `sudo` privileges, you may install binary and man page into your home directory using 
+You may also install binary and man page into your home directory using 
 the `DESTDIR` environment variable:
 
     mkdir -p ~/bin ~/share/man
