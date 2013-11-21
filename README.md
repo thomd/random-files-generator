@@ -2,6 +2,8 @@
 
 `files(1)` is a random files generator for the bash console.
 
+[![Build Status](https://travis-ci.org/thomd/random-files-generator.png)](https://travis-ci.org/thomd/random-files-generator)
+
 Do you need to generate a bunch of random files with random names and
 random content? Think about experimenting with [git][1] or testing a [rsync][2] script.
 
